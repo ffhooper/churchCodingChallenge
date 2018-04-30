@@ -8,12 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		C944473C209798800067F8F8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C944473B209798800067F8F8 /* AppDelegate.swift */; };
-		C944473E209798800067F8F8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C944473D209798800067F8F8 /* ViewController.swift */; };
 		C9444741209798800067F8F8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C944473F209798800067F8F8 /* Main.storyboard */; };
 		C9444743209798810067F8F8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9444742209798810067F8F8 /* Assets.xcassets */; };
 		C9444746209798810067F8F8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9444744209798810067F8F8 /* LaunchScreen.storyboard */; };
 		C9444751209798810067F8F8 /* ChurchChallengeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9444750209798810067F8F8 /* ChurchChallengeTests.swift */; };
 		C944475C209798810067F8F8 /* ChurchChallengeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C944475B209798810067F8F8 /* ChurchChallengeUITests.swift */; };
+		C944476D20979A310067F8F8 /* IndividualsListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C944476C20979A310067F8F8 /* IndividualsListTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +36,6 @@
 /* Begin PBXFileReference section */
 		C9444738209798800067F8F8 /* ChurchChallenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChurchChallenge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C944473B209798800067F8F8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		C944473D209798800067F8F8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		C9444740209798800067F8F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C9444742209798810067F8F8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C9444745209798810067F8F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -47,6 +46,7 @@
 		C9444757209798810067F8F8 /* ChurchChallengeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChurchChallengeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C944475B209798810067F8F8 /* ChurchChallengeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChurchChallengeUITests.swift; sourceTree = "<group>"; };
 		C944475D209798810067F8F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C944476C20979A310067F8F8 /* IndividualsListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualsListTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,11 +98,12 @@
 			isa = PBXGroup;
 			children = (
 				C944473B209798800067F8F8 /* AppDelegate.swift */,
-				C944473D209798800067F8F8 /* ViewController.swift */,
-				C944473F209798800067F8F8 /* Main.storyboard */,
 				C9444742209798810067F8F8 /* Assets.xcassets */,
 				C9444744209798810067F8F8 /* LaunchScreen.storyboard */,
 				C9444747209798810067F8F8 /* Info.plist */,
+				C944476B209799C70067F8F8 /* Model */,
+				C944476A209799B80067F8F8 /* View */,
+				C9444769209799A90067F8F8 /* Controller */,
 			);
 			path = ChurchChallenge;
 			sourceTree = "<group>";
@@ -123,6 +124,29 @@
 				C944475D209798810067F8F8 /* Info.plist */,
 			);
 			path = ChurchChallengeUITests;
+			sourceTree = "<group>";
+		};
+		C9444769209799A90067F8F8 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				C944476C20979A310067F8F8 /* IndividualsListTableViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		C944476A209799B80067F8F8 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C944473F209798800067F8F8 /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		C944476B209799C70067F8F8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -256,7 +280,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C944473E209798800067F8F8 /* ViewController.swift in Sources */,
+				C944476D20979A310067F8F8 /* IndividualsListTableViewController.swift in Sources */,
 				C944473C209798800067F8F8 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
