@@ -9,12 +9,17 @@
 import UIKit
 
 class IndividualsListTableViewController: UITableViewController {
-    
+    var list = [Individual]()
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Uncomment the following line to preserve selection between presentations
         self.clearsSelectionOnViewWillAppear = false
+        let ind = Individual()
+        ind.fetchIndividuals { (worklist) in
+            self.list = worklist
+            self.tableView.reloadData()
+        }
         
     }
 }
@@ -30,17 +35,26 @@ extension IndividualsListTableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 3
+        return list.count
     }
     
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 120
+    }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? UITableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "IndividualTableViewCell", for: indexPath) as! IndividualTableViewCell
+        cell.nameLabel.text = "\(list[indexPath.row].firstName ?? "ERROR") \(list[indexPath.row].lastName ?? "ERROR")"
         
-        cell?.textLabel?.text = "cell: \(indexPath.row)"
-        // Configure the cell...
         
-        return cell!
+        
+        switch list[indexPath.row].affiliation?.rawValue {
+        case Affiliation.JEDI.rawValue:
+            cell.nameLabel.backgroundColor = UIColor.blue
+        default:
+            break
+        }
+        return cell
     }
     
     /*

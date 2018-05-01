@@ -6,6 +6,8 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -18,13 +20,54 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="hL4-mm-rSE">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="IndividualTableViewCell" rowHeight="120" id="hL4-mm-rSE" customClass="IndividualTableViewCell" customModule="ChurchChallenge" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="120"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hL4-mm-rSE" id="URE-tN-rZy">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="119.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5ny-lD-qzV">
+                                            <rect key="frame" x="16" y="11" width="98" height="98"/>
+                                            <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="5ny-lD-qzV" secondAttribute="height" multiplier="1:1" id="byH-Rc-RHq"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="Oce-7s-CrD">
+                                            <rect key="frame" x="122" y="11" width="237" height="30"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="30" id="dRS-1a-bXp"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="vpU-Ng-Tri">
+                                            <rect key="frame" x="122" y="49" width="237" height="60"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="Oce-7s-CrD" firstAttribute="top" secondItem="URE-tN-rZy" secondAttribute="topMargin" id="3T0-AR-Wd6"/>
+                                        <constraint firstItem="Oce-7s-CrD" firstAttribute="leading" secondItem="5ny-lD-qzV" secondAttribute="trailing" constant="8" id="4pS-tG-5ko"/>
+                                        <constraint firstItem="vpU-Ng-Tri" firstAttribute="trailing" secondItem="URE-tN-rZy" secondAttribute="trailingMargin" id="5Od-cH-nRO"/>
+                                        <constraint firstItem="vpU-Ng-Tri" firstAttribute="bottom" secondItem="URE-tN-rZy" secondAttribute="bottomMargin" id="68y-I8-Vwk"/>
+                                        <constraint firstItem="5ny-lD-qzV" firstAttribute="top" secondItem="URE-tN-rZy" secondAttribute="topMargin" id="BJH-L8-wL6"/>
+                                        <constraint firstItem="Oce-7s-CrD" firstAttribute="trailing" secondItem="URE-tN-rZy" secondAttribute="trailingMargin" id="Qs5-U8-7fV"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="5ny-lD-qzV" secondAttribute="bottom" id="dOE-bj-6f8"/>
+                                        <constraint firstItem="5ny-lD-qzV" firstAttribute="leading" secondItem="URE-tN-rZy" secondAttribute="leadingMargin" id="i2q-L4-fAB"/>
+                                        <constraint firstItem="vpU-Ng-Tri" firstAttribute="top" secondItem="Oce-7s-CrD" secondAttribute="bottom" constant="8" id="nOa-Y7-5Yx"/>
+                                        <constraint firstItem="vpU-Ng-Tri" firstAttribute="leading" secondItem="5ny-lD-qzV" secondAttribute="trailing" constant="8" id="yvD-pc-TY6"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="detailsLabel" destination="vpU-Ng-Tri" id="THN-Er-vZY"/>
+                                    <outlet property="nameLabel" destination="Oce-7s-CrD" id="HTV-kA-tVP"/>
+                                    <outlet property="profileImage" destination="5ny-lD-qzV" id="iNv-Ul-Nr1"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
