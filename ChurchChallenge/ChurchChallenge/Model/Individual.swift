@@ -9,6 +9,7 @@
 import Foundation
 import Alamofire
 import CodableAlamofire
+import AlamofireImage
 
 struct Individual: Decodable {
 var id: Int?
@@ -18,12 +19,15 @@ var birthdate: String? //1963-05-05 ,
 var profilePicture: String? //https://edge.ldscdn.org/mobile/interview/07.png ,
 var forceSensitive: Bool?
 var affiliation: Affiliation?
+    var fullname: String {
+        get { return "\(firstName ?? "") \(lastName ?? "")" }
+    }
     
     enum CodingKeys: String, CodingKey {
         case id, firstName, lastName, birthdate, profilePicture, forceSensitive, affiliation
     }
     
-    public func fetchIndividuals(doneStuffBlock: @escaping ([Individual]) -> Void) {
+    func fetchIndividuals(doneStuffBlock: @escaping ([Individual]) -> Void) {
         let url = URL(string: "https://edge.ldscdn.org/mobile/interview/directory")!
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .secondsSince1970 // It is necessary for correct decoding. Timestamp -> Date.
@@ -39,6 +43,23 @@ var affiliation: Affiliation?
             
             print(repo)
             doneStuffBlock(repo!)
+        }
+    }
+    
+    /// Download single image of the web.
+    ///
+    /// - Parameters:
+    ///   - url: Location of image.
+    ///   - imageView: Which uiimageView to load it into.
+    func dowmloadImage(url: String, returnImage: @escaping (UIImage) -> Void) {
+        Alamofire.request(url).responseImage { response in
+            if let error = response.error?.localizedDescription {
+//                self.presentAlert(title: "Load Failed", message: error)
+                print(error)
+            }
+            if let image = response.result.value {
+                returnImage(image)
+            }
         }
     }
     

@@ -10,31 +10,33 @@ import UIKit
 
 class IndividualsListTableViewController: UITableViewController {
     var list = [Individual]()
+    var selectedIndividual = Individual()
+    var selectedImage = UIImage()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Uncomment the following line to preserve selection between presentations
-        self.clearsSelectionOnViewWillAppear = false
+        self.clearsSelectionOnViewWillAppear = true
+        
         let ind = Individual()
         ind.fetchIndividuals { (worklist) in
             self.list = worklist
             self.tableView.reloadData()
         }
-        
     }
+    
 }
+
+// MARK: - Table view data source
 
 extension IndividualsListTableViewController {
     
-    // MARK: - Table view data source
-    
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return list.count
     }
     
@@ -44,27 +46,42 @@ extension IndividualsListTableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "IndividualTableViewCell", for: indexPath) as! IndividualTableViewCell
-        cell.nameLabel.text = "\(list[indexPath.row].firstName ?? "ERROR") \(list[indexPath.row].lastName ?? "ERROR")"
         
+        let ind = Individual()
+        ind.dowmloadImage(url: list[indexPath.row].profilePicture!) { (returnImage: UIImage) in
+            cell.profileImage.image = returnImage
+        }
         
+        cell.nameLabel.text = list[indexPath.row].fullname
         
         switch list[indexPath.row].affiliation?.rawValue {
         case Affiliation.JEDI.rawValue:
             cell.nameLabel.backgroundColor = UIColor.blue
         default:
-            break
+            cell.nameLabel.backgroundColor = UIColor.clear
         }
         return cell
     }
     
-    /*
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "IndividualTableViewCell", for: indexPath) as! IndividualTableViewCell
+        if let image = cell.profileImage.image {
+            selectedImage = image
+        }
+        selectedIndividual = list[indexPath.row]
+        performSegue(withIdentifier: "toDetails", sender: self)
+    }
+    
+    
      // MARK: - Navigation
      
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
+        if segue.identifier == "toDetails" {
+            let desinationVC = segue.destination as! DetailsViewController
+            desinationVC.individual = selectedIndividual
+            desinationVC.image = selectedImage
+        }
      }
-     */
+    
     
 }

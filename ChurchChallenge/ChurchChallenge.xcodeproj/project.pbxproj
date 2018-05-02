@@ -19,6 +19,7 @@
 		C944476D20979A310067F8F8 /* IndividualsListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C944476C20979A310067F8F8 /* IndividualsListTableViewController.swift */; };
 		C944476F20979D1C0067F8F8 /* Individual.swift in Sources */ = {isa = PBXBuildFile; fileRef = C944476E20979D1C0067F8F8 /* Individual.swift */; };
 		C9DE2C672098ECBC0064DA24 /* IndividualTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DE2C662098ECBC0064DA24 /* IndividualTableViewCell.swift */; };
+		C9DE2C6920998A420064DA24 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DE2C6820998A420064DA24 /* DetailsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		C944476C20979A310067F8F8 /* IndividualsListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualsListTableViewController.swift; sourceTree = "<group>"; };
 		C944476E20979D1C0067F8F8 /* Individual.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Individual.swift; sourceTree = "<group>"; };
 		C9DE2C662098ECBC0064DA24 /* IndividualTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualTableViewCell.swift; sourceTree = "<group>"; };
+		C9DE2C6820998A420064DA24 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				C944476C20979A310067F8F8 /* IndividualsListTableViewController.swift */,
+				C9DE2C6820998A420064DA24 /* DetailsViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -352,11 +355,13 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-ChurchChallenge/Pods-ChurchChallenge-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
 				"${BUILT_PRODUCTS_DIR}/CodableAlamofire/CodableAlamofire.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CodableAlamofire.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -411,6 +416,7 @@
 				C944476F20979D1C0067F8F8 /* Individual.swift in Sources */,
 				C944476D20979A310067F8F8 /* IndividualsListTableViewController.swift in Sources */,
 				C944473C209798800067F8F8 /* AppDelegate.swift in Sources */,
+				C9DE2C6920998A420064DA24 /* DetailsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
