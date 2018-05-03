@@ -9,7 +9,7 @@
 import UIKit
 
 class IndividualsListTableViewController: UITableViewController {
-    var list = [Individual]()
+    var individualsList = [Individual]()
     var selectedIndividual = Individual()
     var selectedImage = UIImage()
     
@@ -20,8 +20,10 @@ class IndividualsListTableViewController: UITableViewController {
         self.clearsSelectionOnViewWillAppear = true
         
         let ind = Individual()
-        ind.fetchIndividuals { (worklist) in
-            self.list = worklist
+        ind.fetchIndividuals { (individuals) in
+            if let list = individuals {
+                self.individualsList = list
+            }
             self.tableView.reloadData()
         }
     }
@@ -37,7 +39,7 @@ extension IndividualsListTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return list.count
+        return individualsList.count
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -48,13 +50,13 @@ extension IndividualsListTableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "IndividualTableViewCell", for: indexPath) as! IndividualTableViewCell
         
         let ind = Individual()
-        ind.dowmloadImage(url: list[indexPath.row].profilePicture!) { (returnImage: UIImage) in
+        ind.dowmloadImage(url: individualsList[indexPath.row].profilePicture!) { (returnImage: UIImage) in
             cell.profileImage.image = returnImage
         }
         
-        cell.nameLabel.text = list[indexPath.row].fullname
+        cell.nameLabel.text = individualsList[indexPath.row].fullname
         
-        switch list[indexPath.row].affiliation?.rawValue {
+        switch individualsList[indexPath.row].affiliation?.rawValue {
         case Affiliation.JEDI.rawValue:
             cell.nameLabel.backgroundColor = UIColor.blue
         default:
@@ -68,7 +70,7 @@ extension IndividualsListTableViewController {
         if let image = cell.profileImage.image {
             selectedImage = image
         }
-        selectedIndividual = list[indexPath.row]
+        selectedIndividual = individualsList[indexPath.row]
         performSegue(withIdentifier: "toDetails", sender: self)
     }
     
