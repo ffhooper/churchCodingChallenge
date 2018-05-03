@@ -1,0 +1,6 @@
+framework module Pods_ChurchChallengeTests {
+  umbrella header "Pods-ChurchChallengeTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

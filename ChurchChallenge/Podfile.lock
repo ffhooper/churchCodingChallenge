@@ -1,0 +1,26 @@
+PODS:
+  - Alamofire (4.7.2)
+  - AlamofireImage (3.3.0):
+    - Alamofire (~> 4.5)
+  - CodableAlamofire (1.1.0):
+    - Alamofire (~> 4.0)
+
+DEPENDENCIES:
+  - Alamofire (= 4.7.2)
+  - AlamofireImage (= 3.3.0)
+  - CodableAlamofire (= 1.1.0)
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - Alamofire
+    - AlamofireImage
+    - CodableAlamofire
+
+SPEC CHECKSUMS:
+  Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
+  AlamofireImage: 2e784dc5d00f04903a52c1d169181469c805c3df
+  CodableAlamofire: e2d2edcec7cf413f7862c30c8fa98eded27a83f9
+
+PODFILE CHECKSUM: 4f656c3a00e8f79eb6b57f25f935def37f67c62a
+
+COCOAPODS: 1.5.0
