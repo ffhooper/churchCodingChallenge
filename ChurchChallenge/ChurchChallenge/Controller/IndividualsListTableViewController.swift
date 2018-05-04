@@ -9,11 +9,8 @@
 import UIKit
 
 class IndividualsListTableViewController: UITableViewController {
-    var individualsList = [Individual]()
-    var images = [UIImage]()
-    var savePeople = [Profile]()
-    var selectedIndividual = Individual()
-    var selectedImage = UIImage()
+    var individualsList = [Profile]()
+    var selectedIndividual = Profile()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,35 +20,26 @@ class IndividualsListTableViewController: UITableViewController {
         
         if let list = Profile().load() {
             for item in list {
-                self.savePeople.append(item)
+                self.individualsList.append(item)
             }
             tableView.reloadData()
             guard list.isEmpty else {
                 return
             }
         }
-            let ind = Individual()
-            ind.fetchIndividuals { (individuals) in
-                if let list = individuals {
-                    self.individualsList = list
-                }
-                self.tableView.reloadData()
+        let ind = Profile()
+        ind.fetchIndividuals { (individuals) in
+            if let list = individuals {
+                self.individualsList = list
             }
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        //        for per in savePeople {
-        //            per.save()
-        //        }
+            self.tableView.reloadData()
+        }
     }
     
     @IBAction func saveToDisk(_ sender: UIBarButtonItem) {
-        ////////
         for rec in individualsList {
             let person = Profile()
-            if let id = rec.id {
-                person.id = id
-            }
+            person.id = rec.id
             if let firstName = rec.firstName {
                 person.firstName = firstName
             }
@@ -64,14 +52,10 @@ class IndividualsListTableViewController: UITableViewController {
             if let profilePicture = rec.profilePicture {
                 person.profilePicture = profilePicture
             }
-            if let forceSensitive = rec.forceSensitive {
-                person.forceSensitive = forceSensitive
-            }
-            if let affiliation = rec.affiliation?.rawValue {
-                person.affiliation = affiliation
-            }
+            person.forceSensitive = rec.forceSensitive
+            person.affiliation = rec.affiliation
             
-            let ind = Individual()
+            let ind = Profile()
             if let urlString = rec.profilePicture {
                 ind.dowmloadImage(url: urlString) { (returnImage: UIImage) in
                     if let data = UIImagePNGRepresentation(returnImage) as NSData? {
@@ -81,7 +65,6 @@ class IndividualsListTableViewController: UITableViewController {
                 }
             }
         }
-        /////////
     }
     
     
@@ -96,11 +79,7 @@ extension IndividualsListTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if savePeople.isEmpty {
-            return individualsList.count
-        } else {
-            return savePeople.count
-        }
+        return individualsList.count
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -109,52 +88,31 @@ extension IndividualsListTableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "IndividualTableViewCell", for: indexPath) as! IndividualTableViewCell
-        if savePeople.isEmpty {
-            let profile = individualsList[indexPath.row]
-            
-            let ind = Individual()
+        
+        let profile = individualsList[indexPath.row]
+        
+        if let picture = profile.image {
+            cell.profileImage.image = UIImage(data: picture as Data)
+        } else {
+            let ind = Profile()
             ind.dowmloadImage(url: individualsList[indexPath.row].profilePicture!) { (returnImage: UIImage) in
                 cell.profileImage.image = returnImage
             }
-            
-            cell.nameLabel.text = profile.fullname
-            switch profile.affiliation?.rawValue {
-            case Affiliation.JEDI.rawValue:
-                cell.nameLabel.backgroundColor = UIColor.blue
-            default:
-                cell.nameLabel.backgroundColor = UIColor.clear
-            }
-            return cell
-        } else {
-            let profile = savePeople[indexPath.row]
-            
-            if let picture = profile.image {
-                cell.profileImage.image = UIImage(data: picture as Data)
-            } else {
-                let ind = Individual()
-                ind.dowmloadImage(url: individualsList[indexPath.row].profilePicture!) { (returnImage: UIImage) in
-                    cell.profileImage.image = returnImage
-                }
-            }
-            
-            cell.nameLabel.text = profile.fullname //individualsList[indexPath.row].fullname
-            switch profile.affiliation {
-            case Affiliation.JEDI.rawValue:
-                cell.nameLabel.backgroundColor = UIColor.blue
-            default:
-                cell.nameLabel.backgroundColor = UIColor.clear
-            }
-            return cell
         }
+        
+        cell.nameLabel.text = profile.fullname
+        switch profile.affiliation {
+        case Affiliation.JEDI.rawValue:
+            cell.nameLabel.backgroundColor = UIColor.blue
+        default:
+            cell.nameLabel.backgroundColor = UIColor.clear
+        }
+        return cell
         
         
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "IndividualTableViewCell", for: indexPath) as! IndividualTableViewCell
-        if let image = cell.profileImage.image {
-            selectedImage = image
-        }
         selectedIndividual = individualsList[indexPath.row]
         performSegue(withIdentifier: "toDetails", sender: self)
     }
@@ -166,7 +124,6 @@ extension IndividualsListTableViewController {
         if segue.identifier == "toDetails" {
             let desinationVC = segue.destination as! DetailsViewController
             desinationVC.individual = selectedIndividual
-            desinationVC.image = selectedImage
         }
     }
     

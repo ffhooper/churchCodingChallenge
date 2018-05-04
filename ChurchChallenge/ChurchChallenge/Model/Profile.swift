@@ -8,6 +8,9 @@
 
 import Foundation
 import RealmSwift
+import Alamofire
+import CodableAlamofire
+import AlamofireImage
 
 class Profile: Object, Decodable {
     @objc dynamic var image: NSData?
@@ -27,17 +30,45 @@ class Profile: Object, Decodable {
         case id, firstName, lastName, birthdate, profilePicture, forceSensitive, affiliation
     }
     
-    func save() {
-//        DispatchQueue.main.sync {
-            do {
-                let realm = try Realm()
-                try realm.write {
-                    realm.add(self)
-                }
-            } catch {
-                showAlert(title: "Save Failed", message: error.localizedDescription)
+    func fetchIndividuals(completion: @escaping ([Profile]?) -> Void) {
+        let url = URL(string: "https://edge.ldscdn.org/mobile/interview/directory")!
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .secondsSince1970
+        
+        Alamofire.request(url).responseDecodableObject(keyPath: "individuals", decoder: decoder) { (response: DataResponse<[Profile]>) in
+            if let error = response.result.error {
+                showAlert(title: "Faild to Fetch Individuals", message: error.localizedDescription)
+                return
             }
-//        }
+            completion(response.result.value)
+        }
+    }
+    
+    /// Download single image of the web.
+    ///
+    /// - Parameters:
+    ///   - url: Location of image.
+    ///   - imageView: Which uiimageView to load it into.
+    func dowmloadImage(url: String, returnImage: @escaping (UIImage) -> Void) {
+        Alamofire.request(url).responseImage { response in
+            if let error = response.error?.localizedDescription {
+                showAlert(title: "Load Failed", message: error)
+            }
+            if let image = response.result.value {
+                returnImage(image)
+            }
+        }
+    }
+    
+    func save() {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                realm.add(self)
+            }
+        } catch {
+            showAlert(title: "Save Failed", message: error.localizedDescription)
+        }
     }
     
     func load() -> Results<Profile>? {
@@ -62,3 +93,10 @@ class Profile: Object, Decodable {
     }
     
 }
+
+
+enum Affiliation: String, Decodable {
+    case JEDI, RESISTANCE, SITH, FIRST_ORDER
+}
+
+

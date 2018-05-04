@@ -16,21 +16,20 @@ class DetailsViewController: UIViewController {
     @IBOutlet weak var dateOfBirthLabel: UILabel!
     @IBOutlet weak var forceSensitiveLabel: UILabel!
     
-    var individual = Individual()
-    var image = UIImage()
+    var individual = Profile()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        profileImage.image = image
-        nameLabel.text = individual.fullname
-        idLabel.text = "\(individual.id ?? 0)"
-        affiliationLabel.text = individual.affiliation?.rawValue
-        dateOfBirthLabel.text = individual.birthdate
-        if let hasForce = individual.forceSensitive {
-            forceSensitiveLabel.text = hasForce ? "Yes" : "No"
+        
+        if let picture = individual.image {
+            profileImage.image = UIImage(data: picture as Data)
         }
+        nameLabel.text = individual.fullname
+        idLabel.text = "\(individual.id)"
+        affiliationLabel.text = individual.affiliation
+        dateOfBirthLabel.text = individual.birthdate
+        forceSensitiveLabel.text = individual.forceSensitive ? "Yes" : "No"
         
     }
-
+    
 }
