@@ -44,11 +44,11 @@ class Profile: Object, Decodable {
         }
     }
     
-    /// Download single image of the web.
+    /// Download single image from the web.
     ///
     /// - Parameters:
     ///   - url: Location of image.
-    ///   - imageView: Which uiimageView to load it into.
+    ///   - returnImage: UIImage returned back.
     func dowmloadImage(url: String, returnImage: @escaping (UIImage) -> Void) {
         Alamofire.request(url).responseImage { response in
             if let error = response.error?.localizedDescription {
@@ -60,6 +60,7 @@ class Profile: Object, Decodable {
         }
     }
     
+    // Save to disk with Realm.
     func save() {
         do {
             let realm = try Realm()
@@ -71,6 +72,7 @@ class Profile: Object, Decodable {
         }
     }
     
+    // Load from disk with Realm.
     func load() -> Results<Profile>? {
         do {
             let realm = try Realm()
@@ -81,6 +83,7 @@ class Profile: Object, Decodable {
         }
     }
     
+    // Delete all from disk with Realm.
     func deleteAll() {
         do {
             let realm = try Realm()
