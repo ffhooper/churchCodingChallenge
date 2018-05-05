@@ -16,7 +16,7 @@ class DetailsViewController: UIViewController {
     @IBOutlet weak var dateOfBirthLabel: UILabel!
     @IBOutlet weak var forceSensitiveLabel: UILabel!
     
-    var individual = Profile()
+    var individual = Individual()
     
     override func viewDidLoad() {
         super.viewDidLoad()

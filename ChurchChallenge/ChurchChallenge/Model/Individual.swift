@@ -1,5 +1,5 @@
 //
-//  Profile.swift
+//  Individual.swift
 //  ChurchChallenge
 //
 //  Created by Riley Hooper on 5/2/18.
@@ -12,14 +12,14 @@ import Alamofire
 import CodableAlamofire
 import AlamofireImage
 
-class Profile: Object, Decodable {
+class Individual: Object, Decodable {
     @objc dynamic var image: NSData?
     
     @objc dynamic var id: Int = 0
     @objc dynamic var firstName: String?
     @objc dynamic var lastName: String?
     @objc dynamic var birthdate: String?
-    @objc dynamic var profilePicture: String?
+    @objc dynamic var profilePicture: String? // This it the url from the image.
     @objc dynamic var forceSensitive: Bool = false
     @objc dynamic var affiliation: String?
     var fullname: String {
@@ -33,12 +33,12 @@ class Profile: Object, Decodable {
     /// Load data for individuals from url.
     ///
     /// - Parameter completion: Array of Individuals from the url.
-    func fetchIndividuals(completion: @escaping ([Profile]?) -> Void) {
+    func fetchIndividuals(completion: @escaping ([Individual]?) -> Void) {
         let url = URL(string: "https://edge.ldscdn.org/mobile/interview/directory")!
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .secondsSince1970
         
-        Alamofire.request(url).responseDecodableObject(keyPath: "individuals", decoder: decoder) { (response: DataResponse<[Profile]>) in
+        Alamofire.request(url).responseDecodableObject(keyPath: "individuals", decoder: decoder) { (response: DataResponse<[Individual]>) in
             if let error = response.result.error {
                 showAlert(title: "Faild to Fetch Individuals", message: error.localizedDescription)
                 return
@@ -88,10 +88,10 @@ class Profile: Object, Decodable {
     }
     
     // Load from disk with Realm.
-    func load() -> Results<Profile>? {
+    func load() -> Results<Individual>? {
         do {
             let realm = try Realm()
-            return realm.objects(Profile.self).sorted(byKeyPath: "firstName")
+            return realm.objects(Individual.self).sorted(byKeyPath: "firstName")
         } catch {
             showAlert(title: "Load Failed", message: error.localizedDescription)
             return nil
@@ -103,7 +103,7 @@ class Profile: Object, Decodable {
         do {
             let realm = try Realm()
             try realm.write {
-                realm.delete(realm.objects(Profile.self))
+                realm.delete(realm.objects(Individual.self))
             }
         } catch {
             showAlert(title: "Delete All Failed", message: error.localizedDescription)

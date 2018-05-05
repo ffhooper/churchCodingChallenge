@@ -76,7 +76,12 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="91d-Ub-TZv">
-                        <barButtonItem key="rightBarButtonItem" title="Save" id="fMz-vO-Uh7">
+                        <barButtonItem key="leftBarButtonItem" systemItem="trash" id="K3P-KI-U53">
+                            <connections>
+                                <action selector="deleteIndividuals:" destination="OlZ-fQ-rew" id="zPy-0u-YTo"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="fMz-vO-Uh7">
                             <connections>
                                 <action selector="saveToDisk:" destination="OlZ-fQ-rew" id="k8m-WK-pc8"/>
                             </connections>

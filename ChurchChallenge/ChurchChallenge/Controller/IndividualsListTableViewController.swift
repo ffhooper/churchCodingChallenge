@@ -9,8 +9,8 @@
 import UIKit
 
 class IndividualsListTableViewController: UITableViewController {
-    var individualsList = [Profile]()
-    var selectedIndividual = Profile()
+    var individualsList = [Individual]()
+    var selectedIndividual = Individual()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,7 +18,7 @@ class IndividualsListTableViewController: UITableViewController {
         // Uncomment the following line to preserve selection between presentations
         self.clearsSelectionOnViewWillAppear = true
         
-        if let list = Profile().load() {
+        if let list = Individual().load() {
             for item in list {
                 self.individualsList.append(item)
             }
@@ -27,7 +27,7 @@ class IndividualsListTableViewController: UITableViewController {
                 return
             }
         }
-        let ind = Profile()
+        let ind = Individual()
         ind.fetchIndividuals { (individuals) in
             if let list = individuals {
                 self.individualsList = list
@@ -38,7 +38,7 @@ class IndividualsListTableViewController: UITableViewController {
     
     @IBAction func saveToDisk(_ sender: UIBarButtonItem) {
         for rec in individualsList {
-            let person = Profile()
+            let person = Individual()
             person.id = rec.id
             if let firstName = rec.firstName {
                 person.firstName = firstName
@@ -59,7 +59,7 @@ class IndividualsListTableViewController: UITableViewController {
                 person.image = rec.image
                 person.save()
             } else {
-                let ind = Profile()
+                let ind = Individual()
                 if let urlString = rec.profilePicture {
                     ind.dowmloadImage(url: urlString) { (returnImage: UIImage) in
                         if let data = UIImagePNGRepresentation(returnImage) as NSData? {
@@ -72,6 +72,13 @@ class IndividualsListTableViewController: UITableViewController {
         }
     }
     
+    @IBAction func deleteIndividuals(_ sender: Any) {
+        // Clean all individuals on disk.
+        let person = Individual()
+        person.deleteAll()
+        individualsList.removeAll()
+        tableView.reloadData()
+    }
     
 }
 
@@ -99,7 +106,7 @@ extension IndividualsListTableViewController {
         if let picture = profile.image {
             cell.profileImage.image = UIImage(data: picture as Data)
         } else {
-            let ind = Profile()
+            let ind = Individual()
             ind.dowmloadImage(url: individualsList[indexPath.row].profilePicture!) { (returnImage: UIImage) in
                 cell.profileImage.image = returnImage
                 self.individualsList[indexPath.row].image = UIImagePNGRepresentation(returnImage) as NSData?
