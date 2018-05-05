@@ -9,6 +9,8 @@ target 'ChurchChallenge' do
    pod 'Alamofire', '4.7.2'
    pod 'CodableAlamofire', '1.1.0'
    pod 'AlamofireImage', '3.3.0'
+   
+   pod 'RealmSwift', '3.5.0'
 
   target 'ChurchChallengeTests' do
     inherit! :search_paths

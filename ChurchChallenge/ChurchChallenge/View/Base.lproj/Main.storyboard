@@ -75,7 +75,13 @@
                             <outlet property="delegate" destination="OlZ-fQ-rew" id="X3G-h3-ERA"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="91d-Ub-TZv"/>
+                    <navigationItem key="navigationItem" id="91d-Ub-TZv">
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="fMz-vO-Uh7">
+                            <connections>
+                                <action selector="saveToDisk:" destination="OlZ-fQ-rew" id="k8m-WK-pc8"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <segue destination="NIn-nm-SF4" kind="show" identifier="toDetails" id="Hrb-ma-LFH"/>
                     </connections>
