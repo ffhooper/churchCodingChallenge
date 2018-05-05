@@ -55,12 +55,17 @@ class IndividualsListTableViewController: UITableViewController {
             person.forceSensitive = rec.forceSensitive
             person.affiliation = rec.affiliation
             
-            let ind = Profile()
-            if let urlString = rec.profilePicture {
-                ind.dowmloadImage(url: urlString) { (returnImage: UIImage) in
-                    if let data = UIImagePNGRepresentation(returnImage) as NSData? {
-                        person.image = data
-                        person.save()
+            if rec.image != nil {
+                person.image = rec.image
+                person.save()
+            } else {
+                let ind = Profile()
+                if let urlString = rec.profilePicture {
+                    ind.dowmloadImage(url: urlString) { (returnImage: UIImage) in
+                        if let data = UIImagePNGRepresentation(returnImage) as NSData? {
+                            person.image = data
+                            person.save()
+                        }
                     }
                 }
             }
@@ -97,6 +102,7 @@ extension IndividualsListTableViewController {
             let ind = Profile()
             ind.dowmloadImage(url: individualsList[indexPath.row].profilePicture!) { (returnImage: UIImage) in
                 cell.profileImage.image = returnImage
+                self.individualsList[indexPath.row].image = UIImagePNGRepresentation(returnImage) as NSData?
             }
         }
         

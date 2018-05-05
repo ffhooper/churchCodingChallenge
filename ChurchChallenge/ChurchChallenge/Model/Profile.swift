@@ -30,6 +30,9 @@ class Profile: Object, Decodable {
         case id, firstName, lastName, birthdate, profilePicture, forceSensitive, affiliation
     }
     
+    /// Load data for individuals from url.
+    ///
+    /// - Parameter completion: Array of Individuals from the url.
     func fetchIndividuals(completion: @escaping ([Profile]?) -> Void) {
         let url = URL(string: "https://edge.ldscdn.org/mobile/interview/directory")!
         let decoder = JSONDecoder()
@@ -40,7 +43,19 @@ class Profile: Object, Decodable {
                 showAlert(title: "Faild to Fetch Individuals", message: error.localizedDescription)
                 return
             }
-            completion(response.result.value)
+            if let list = response.result.value {
+                for item in list {
+                    // Load image for the individual.
+                    item.dowmloadImage(url: item.profilePicture!) { (returnImage: UIImage) in
+                        if let data = UIImagePNGRepresentation(returnImage) as NSData? {
+                            item.image = data
+                        }
+                    }
+                }
+                completion(list)
+            } else {
+                completion(response.result.value)
+            }
         }
     }
     
