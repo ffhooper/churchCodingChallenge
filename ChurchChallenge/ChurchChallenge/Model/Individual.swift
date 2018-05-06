@@ -52,6 +52,7 @@ class Individual: Object, Decodable {
                         item.dowmloadImage(url: url) { (returnImage: UIImage) in
                             if let data = UIImagePNGRepresentation(returnImage) as NSData? {
                                 item.image = data
+                                IndividualsListTableViewController.numberOfImagesLoaded += 1
                             }
                         }
                     }

@@ -11,6 +11,7 @@ import UIKit
 class IndividualsListTableViewController: UITableViewController {
     var individualsList = [Individual]()
     var selectedIndividual = Individual()
+    static var numberOfImagesLoaded = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,12 +21,10 @@ class IndividualsListTableViewController: UITableViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        
         if UserDefaults.standard.bool(forKey: Constants.ShowInfoAlert) == true || UserDefaults.standard.object(forKey: Constants.ShowInfoAlert) == nil {
             UserDefaults.standard.set(false, forKey: Constants.ShowInfoAlert)
             showAlert(title: "Need to refresh?", message: "If you need to refresh the data, just \"Pull to Refresh\". If anything is saved to disk, it will load that. Else it will fetch from the web.")
         }
-        
     }
     
     @IBAction func pullToRefresh(_ sender: Any) {
@@ -33,10 +32,12 @@ class IndividualsListTableViewController: UITableViewController {
     }
     
     func refreshTableData() {
+        IndividualsListTableViewController.numberOfImagesLoaded = 0
         individualsList.removeAll()
         if let list = Individual().load() {
             for item in list {
                 self.individualsList.append(item)
+                IndividualsListTableViewController.numberOfImagesLoaded += 1
             }
             self.individualsList.sort { $0.id < $1.id }
             self.refreshControl?.endRefreshing()
@@ -57,6 +58,11 @@ class IndividualsListTableViewController: UITableViewController {
     }
     
     @IBAction func saveToDisk(_ sender: UIBarButtonItem) {
+        // KNOW BUG: In rare cases a crash can happen when the images are still loading and you try to do a save.
+        guard IndividualsListTableViewController.numberOfImagesLoaded == individualsList.count else {
+            showAlert(title: "Save Not Available", message: "There are still images downloading, please wait a few seconds and try again.")
+            return
+        }
         // KNOWN BUG: If you save multiple times there will be duplicate individuals save to disk. TODO: Delete whats on disk, or check ID of record on disk and if it is already saved skip that record.
         for rec in individualsList {
             let person = Individual()
