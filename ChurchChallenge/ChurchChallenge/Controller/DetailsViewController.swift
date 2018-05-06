@@ -33,7 +33,7 @@ class DetailsViewController: UIViewController {
         
         switch individual.affiliation {
         case Affiliation.JEDI.rawValue:
-           affiliationLabel.text = "Jedi"
+            affiliationLabel.text = "Jedi"
         case Affiliation.RESISTANCE.rawValue:
             affiliationLabel.text = "Resistance"
         case Affiliation.SITH.rawValue:
