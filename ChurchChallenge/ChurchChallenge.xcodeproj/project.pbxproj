@@ -11,7 +11,7 @@
 		3EE8CE7863E19B5F6D787A98 /* Pods_ChurchChallengeUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8015F8638BE6E9C16F2865E4 /* Pods_ChurchChallengeUITests.framework */; };
 		BADC80EAAFF748437F198730 /* Pods_ChurchChallenge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A367308DD355C0E9911240D /* Pods_ChurchChallenge.framework */; };
 		C9414169209AC07E00565B96 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9414168209AC07E00565B96 /* Alert.swift */; };
-		C941416B209AC9CF00565B96 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C941416A209AC9CF00565B96 /* Profile.swift */; };
+		C941416B209AC9CF00565B96 /* Individual.swift in Sources */ = {isa = PBXBuildFile; fileRef = C941416A209AC9CF00565B96 /* Individual.swift */; };
 		C944473C209798800067F8F8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C944473B209798800067F8F8 /* AppDelegate.swift */; };
 		C9444741209798800067F8F8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C944473F209798800067F8F8 /* Main.storyboard */; };
 		C9444743209798810067F8F8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9444742209798810067F8F8 /* Assets.xcassets */; };
@@ -51,7 +51,7 @@
 		8A66BF45EE7433B149FDCCC4 /* Pods_ChurchChallengeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChurchChallengeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B518C8C57CED6CB350E5C2B7 /* Pods-ChurchChallengeUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChurchChallengeUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ChurchChallengeUITests/Pods-ChurchChallengeUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		C9414168209AC07E00565B96 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
-		C941416A209AC9CF00565B96 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		C941416A209AC9CF00565B96 /* Individual.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Individual.swift; sourceTree = "<group>"; };
 		C9444738209798800067F8F8 /* ChurchChallenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChurchChallenge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C944473B209798800067F8F8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C9444740209798800067F8F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -149,6 +149,7 @@
 				C9444742209798810067F8F8 /* Assets.xcassets */,
 				C9444744209798810067F8F8 /* LaunchScreen.storyboard */,
 				C9444747209798810067F8F8 /* Info.plist */,
+				C9C47928209E6DB3006F6DC7 /* Shared */,
 				C944476B209799C70067F8F8 /* Model */,
 				C944476A209799B80067F8F8 /* View */,
 				C9444769209799A90067F8F8 /* Controller */,
@@ -179,7 +180,6 @@
 			children = (
 				C944476C20979A310067F8F8 /* IndividualsListTableViewController.swift */,
 				C9DE2C6820998A420064DA24 /* DetailsViewController.swift */,
-				C9414168209AC07E00565B96 /* Alert.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -196,9 +196,17 @@
 		C944476B209799C70067F8F8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				C941416A209AC9CF00565B96 /* Profile.swift */,
+				C941416A209AC9CF00565B96 /* Individual.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		C9C47928209E6DB3006F6DC7 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				C9414168209AC07E00565B96 /* Alert.swift */,
+			);
+			path = Shared;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -421,7 +429,7 @@
 			files = (
 				C9414169209AC07E00565B96 /* Alert.swift in Sources */,
 				C9DE2C672098ECBC0064DA24 /* IndividualTableViewCell.swift in Sources */,
-				C941416B209AC9CF00565B96 /* Profile.swift in Sources */,
+				C941416B209AC9CF00565B96 /* Individual.swift in Sources */,
 				C944476D20979A310067F8F8 /* IndividualsListTableViewController.swift in Sources */,
 				C944473C209798800067F8F8 /* AppDelegate.swift in Sources */,
 				C9DE2C6920998A420064DA24 /* DetailsViewController.swift in Sources */,
@@ -601,6 +609,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = AQBECMS2SK;
 				INFOPLIST_FILE = ChurchChallenge/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -620,6 +629,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = AQBECMS2SK;
 				INFOPLIST_FILE = ChurchChallenge/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

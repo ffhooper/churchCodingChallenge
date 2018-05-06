@@ -9,6 +9,7 @@
 import UIKit
 
 class DetailsViewController: UIViewController {
+    @IBOutlet weak var affiliationImage: UIImageView!
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var idLabel: UILabel!
@@ -16,7 +17,7 @@ class DetailsViewController: UIViewController {
     @IBOutlet weak var dateOfBirthLabel: UILabel!
     @IBOutlet weak var forceSensitiveLabel: UILabel!
     
-    var individual = Profile()
+    var individual = Individual()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,11 +25,24 @@ class DetailsViewController: UIViewController {
         if let picture = individual.image {
             profileImage.image = UIImage(data: picture as Data)
         }
+        affiliationImage.image = individual.getAffiliationImage()
         nameLabel.text = individual.fullname
         idLabel.text = "\(individual.id)"
-        affiliationLabel.text = individual.affiliation
         dateOfBirthLabel.text = individual.birthdate
         forceSensitiveLabel.text = individual.forceSensitive ? "Yes" : "No"
+        
+        switch individual.affiliation {
+        case Affiliation.JEDI.rawValue:
+           affiliationLabel.text = "Jedi"
+        case Affiliation.RESISTANCE.rawValue:
+            affiliationLabel.text = "Resistance"
+        case Affiliation.SITH.rawValue:
+            affiliationLabel.text = "Sith"
+        case Affiliation.FIRST_ORDER.rawValue:
+            affiliationLabel.text = "First Order"
+        default:
+            affiliationLabel.text = "Missing"
+        }
         
     }
     

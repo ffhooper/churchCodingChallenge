@@ -9,8 +9,8 @@
 import UIKit
 
 class IndividualsListTableViewController: UITableViewController {
-    var individualsList = [Profile]()
-    var selectedIndividual = Profile()
+    var individualsList = [Individual]()
+    var selectedIndividual = Individual()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,27 +18,41 @@ class IndividualsListTableViewController: UITableViewController {
         // Uncomment the following line to preserve selection between presentations
         self.clearsSelectionOnViewWillAppear = true
         
-        if let list = Profile().load() {
+        refreshTableData()
+    }
+    
+    @IBAction func pullToRefresh(_ sender: Any) {
+        refreshTableData()
+    }
+    
+    func refreshTableData() {
+        individualsList.removeAll()
+        if let list = Individual().load() {
             for item in list {
                 self.individualsList.append(item)
             }
+            self.individualsList.sort { $0.firstName ?? "Missing" < $1.firstName ?? "Missing" }
+            self.refreshControl?.endRefreshing()
             tableView.reloadData()
             guard list.isEmpty else {
                 return
             }
         }
-        let ind = Profile()
+        let ind = Individual()
         ind.fetchIndividuals { (individuals) in
             if let list = individuals {
                 self.individualsList = list
             }
+            self.individualsList.sort { $0.firstName ?? "Missing" < $1.firstName ?? "Missing" }
+            self.refreshControl?.endRefreshing()
             self.tableView.reloadData()
         }
     }
     
     @IBAction func saveToDisk(_ sender: UIBarButtonItem) {
+        // KNOWN BUG: If you save multiple times there will be duplicate individuals save to disk. TODO: Delete whats on disk, or check ID of record on disk and if it is already saved skip that record.
         for rec in individualsList {
-            let person = Profile()
+            let person = Individual()
             person.id = rec.id
             if let firstName = rec.firstName {
                 person.firstName = firstName
@@ -55,18 +69,31 @@ class IndividualsListTableViewController: UITableViewController {
             person.forceSensitive = rec.forceSensitive
             person.affiliation = rec.affiliation
             
-            let ind = Profile()
-            if let urlString = rec.profilePicture {
-                ind.dowmloadImage(url: urlString) { (returnImage: UIImage) in
-                    if let data = UIImagePNGRepresentation(returnImage) as NSData? {
-                        person.image = data
-                        person.save()
+            if rec.image != nil {
+                person.image = rec.image
+                person.save()
+            } else {
+                let ind = Individual()
+                if let urlString = rec.profilePicture {
+                    ind.dowmloadImage(url: urlString) { (returnImage: UIImage) in
+                        if let data = UIImagePNGRepresentation(returnImage) as NSData? {
+                            person.image = data
+                            person.save()
+                        }
                     }
                 }
             }
         }
+        refreshTableData()
     }
     
+    @IBAction func deleteIndividuals(_ sender: Any) {
+        // Clean all individuals on disk.
+        let person = Individual()
+        person.deleteAll()
+        individualsList.removeAll()
+        tableView.reloadData()
+    }
     
 }
 
@@ -83,7 +110,7 @@ extension IndividualsListTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120
+        return 225
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -94,19 +121,16 @@ extension IndividualsListTableViewController {
         if let picture = profile.image {
             cell.profileImage.image = UIImage(data: picture as Data)
         } else {
-            let ind = Profile()
+            let ind = Individual()
             ind.dowmloadImage(url: individualsList[indexPath.row].profilePicture!) { (returnImage: UIImage) in
                 cell.profileImage.image = returnImage
+                self.individualsList[indexPath.row].image = UIImagePNGRepresentation(returnImage) as NSData?
             }
         }
         
         cell.nameLabel.text = profile.fullname
-        switch profile.affiliation {
-        case Affiliation.JEDI.rawValue:
-            cell.nameLabel.backgroundColor = UIColor.blue
-        default:
-            cell.nameLabel.backgroundColor = UIColor.clear
-        }
+        cell.AffiliationImage.image = profile.getAffiliationImage()
+        
         return cell
         
         
@@ -122,8 +146,8 @@ extension IndividualsListTableViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toDetails" {
-            let desinationVC = segue.destination as! DetailsViewController
-            desinationVC.individual = selectedIndividual
+            let destinationVC = segue.destination as! DetailsViewController
+            destinationVC.individual = selectedIndividual
         }
     }
     
