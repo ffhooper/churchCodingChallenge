@@ -149,6 +149,7 @@
 				C9444742209798810067F8F8 /* Assets.xcassets */,
 				C9444744209798810067F8F8 /* LaunchScreen.storyboard */,
 				C9444747209798810067F8F8 /* Info.plist */,
+				C9C47928209E6DB3006F6DC7 /* Shared */,
 				C944476B209799C70067F8F8 /* Model */,
 				C944476A209799B80067F8F8 /* View */,
 				C9444769209799A90067F8F8 /* Controller */,
@@ -179,7 +180,6 @@
 			children = (
 				C944476C20979A310067F8F8 /* IndividualsListTableViewController.swift */,
 				C9DE2C6820998A420064DA24 /* DetailsViewController.swift */,
-				C9414168209AC07E00565B96 /* Alert.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -199,6 +199,14 @@
 				C941416A209AC9CF00565B96 /* Individual.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		C9C47928209E6DB3006F6DC7 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				C9414168209AC07E00565B96 /* Alert.swift */,
+			);
+			path = Shared;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -601,6 +609,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = AQBECMS2SK;
 				INFOPLIST_FILE = ChurchChallenge/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -620,6 +629,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = AQBECMS2SK;
 				INFOPLIST_FILE = ChurchChallenge/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

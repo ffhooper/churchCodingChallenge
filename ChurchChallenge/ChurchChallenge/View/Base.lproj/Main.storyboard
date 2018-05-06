@@ -12,7 +12,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Individuals List Table View Controller-->
+        <!--Individuals-->
         <scene sceneID="78W-EZ-WY5">
             <objects>
                 <tableViewController id="OlZ-fQ-rew" customClass="IndividualsListTableViewController" customModule="ChurchChallenge" customModuleProvider="target" sceneMemberID="viewController">
@@ -21,21 +21,21 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="IndividualTableViewCell" rowHeight="120" id="hL4-mm-rSE" customClass="IndividualTableViewCell" customModule="ChurchChallenge" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="375" height="120"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="IndividualTableViewCell" rowHeight="225" id="hL4-mm-rSE" customClass="IndividualTableViewCell" customModule="ChurchChallenge" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="225"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hL4-mm-rSE" id="URE-tN-rZy">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="119.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="224.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5ny-lD-qzV">
-                                            <rect key="frame" x="16" y="11" width="85" height="98"/>
+                                            <rect key="frame" x="16" y="11" width="175" height="203"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="85" id="nwb-Hs-phX"/>
+                                                <constraint firstAttribute="width" constant="175" id="nwb-Hs-phX"/>
                                             </constraints>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="Oce-7s-CrD">
-                                            <rect key="frame" x="109" y="11" width="250" height="30"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="Oce-7s-CrD">
+                                            <rect key="frame" x="199" y="11" width="160" height="30"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="30" id="dRS-1a-bXp"/>
                                             </constraints>
@@ -43,28 +43,27 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="vpU-Ng-Tri">
-                                            <rect key="frame" x="109" y="49" width="250" height="60"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rt4-T8-QgS">
+                                            <rect key="frame" x="209" y="49" width="100" height="100"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="100" id="izF-uL-eaf"/>
+                                                <constraint firstAttribute="height" constant="100" id="w3Z-kU-lbo"/>
+                                            </constraints>
+                                        </imageView>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstItem="rt4-T8-QgS" firstAttribute="leading" secondItem="5ny-lD-qzV" secondAttribute="trailing" constant="18" id="2pa-tl-xnn"/>
                                         <constraint firstItem="Oce-7s-CrD" firstAttribute="top" secondItem="URE-tN-rZy" secondAttribute="topMargin" id="3T0-AR-Wd6"/>
                                         <constraint firstItem="Oce-7s-CrD" firstAttribute="leading" secondItem="5ny-lD-qzV" secondAttribute="trailing" constant="8" id="4pS-tG-5ko"/>
-                                        <constraint firstItem="vpU-Ng-Tri" firstAttribute="trailing" secondItem="URE-tN-rZy" secondAttribute="trailingMargin" id="5Od-cH-nRO"/>
-                                        <constraint firstItem="vpU-Ng-Tri" firstAttribute="bottom" secondItem="URE-tN-rZy" secondAttribute="bottomMargin" id="68y-I8-Vwk"/>
                                         <constraint firstItem="5ny-lD-qzV" firstAttribute="top" secondItem="URE-tN-rZy" secondAttribute="topMargin" id="BJH-L8-wL6"/>
                                         <constraint firstItem="Oce-7s-CrD" firstAttribute="trailing" secondItem="URE-tN-rZy" secondAttribute="trailingMargin" id="Qs5-U8-7fV"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="5ny-lD-qzV" secondAttribute="bottom" id="dOE-bj-6f8"/>
                                         <constraint firstItem="5ny-lD-qzV" firstAttribute="leading" secondItem="URE-tN-rZy" secondAttribute="leadingMargin" id="i2q-L4-fAB"/>
-                                        <constraint firstItem="vpU-Ng-Tri" firstAttribute="top" secondItem="Oce-7s-CrD" secondAttribute="bottom" constant="8" id="nOa-Y7-5Yx"/>
-                                        <constraint firstItem="vpU-Ng-Tri" firstAttribute="leading" secondItem="5ny-lD-qzV" secondAttribute="trailing" constant="8" id="yvD-pc-TY6"/>
+                                        <constraint firstItem="rt4-T8-QgS" firstAttribute="top" secondItem="Oce-7s-CrD" secondAttribute="bottom" constant="8" id="ztz-Z7-Jag"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="detailsLabel" destination="vpU-Ng-Tri" id="THN-Er-vZY"/>
+                                    <outlet property="AffiliationImage" destination="rt4-T8-QgS" id="x73-r5-lpG"/>
                                     <outlet property="nameLabel" destination="Oce-7s-CrD" id="HTV-kA-tVP"/>
                                     <outlet property="profileImage" destination="5ny-lD-qzV" id="iNv-Ul-Nr1"/>
                                 </connections>
@@ -75,7 +74,7 @@
                             <outlet property="delegate" destination="OlZ-fQ-rew" id="X3G-h3-ERA"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="91d-Ub-TZv">
+                    <navigationItem key="navigationItem" title="Individuals" id="91d-Ub-TZv">
                         <barButtonItem key="leftBarButtonItem" systemItem="trash" id="K3P-KI-U53">
                             <connections>
                                 <action selector="deleteIndividuals:" destination="OlZ-fQ-rew" id="zPy-0u-YTo"/>
@@ -87,6 +86,12 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="bZm-Wu-vi2">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <connections>
+                            <action selector="pullToRefresh:" destination="OlZ-fQ-rew" eventType="valueChanged" id="0JM-r2-R8W"/>
+                        </connections>
+                    </refreshControl>
                     <connections>
                         <segue destination="NIn-nm-SF4" kind="show" identifier="toDetails" id="Hrb-ma-LFH"/>
                     </connections>

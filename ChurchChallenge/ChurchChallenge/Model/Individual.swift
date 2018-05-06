@@ -75,6 +75,21 @@ class Individual: Object, Decodable {
         }
     }
     
+    func getAffiliationImage() -> UIImage? {
+        switch self.affiliation {
+        case Affiliation.JEDI.rawValue:
+            return UIImage(named: "JediOrder")
+        case Affiliation.RESISTANCE.rawValue:
+            return UIImage(named: "RebelAlliance")
+        case Affiliation.SITH.rawValue:
+            return UIImage(named: "Sith")
+        case Affiliation.FIRST_ORDER.rawValue:
+            return UIImage(named: "FirstOrder")
+        default:
+            return nil
+        }
+    }
+    
     // Save to disk with Realm.
     func save() {
         do {

@@ -18,10 +18,21 @@ class IndividualsListTableViewController: UITableViewController {
         // Uncomment the following line to preserve selection between presentations
         self.clearsSelectionOnViewWillAppear = true
         
+        refreshTableData()
+    }
+    
+    @IBAction func pullToRefresh(_ sender: Any) {
+        refreshTableData()
+    }
+    
+    func refreshTableData() {
+        individualsList.removeAll()
         if let list = Individual().load() {
             for item in list {
                 self.individualsList.append(item)
             }
+            self.individualsList.sort { $0.firstName ?? "Missing" < $1.firstName ?? "Missing" }
+            self.refreshControl?.endRefreshing()
             tableView.reloadData()
             guard list.isEmpty else {
                 return
@@ -32,6 +43,8 @@ class IndividualsListTableViewController: UITableViewController {
             if let list = individuals {
                 self.individualsList = list
             }
+            self.individualsList.sort { $0.firstName ?? "Missing" < $1.firstName ?? "Missing" }
+            self.refreshControl?.endRefreshing()
             self.tableView.reloadData()
         }
     }
@@ -95,7 +108,7 @@ extension IndividualsListTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120
+        return 225
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -114,12 +127,8 @@ extension IndividualsListTableViewController {
         }
         
         cell.nameLabel.text = profile.fullname
-        switch profile.affiliation {
-        case Affiliation.JEDI.rawValue:
-            cell.nameLabel.backgroundColor = UIColor.blue
-        default:
-            cell.nameLabel.backgroundColor = UIColor.clear
-        }
+        cell.AffiliationImage.image = profile.getAffiliationImage()
+        
         return cell
         
         
