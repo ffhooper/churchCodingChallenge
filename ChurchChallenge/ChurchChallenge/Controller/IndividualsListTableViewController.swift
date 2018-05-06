@@ -50,6 +50,7 @@ class IndividualsListTableViewController: UITableViewController {
     }
     
     @IBAction func saveToDisk(_ sender: UIBarButtonItem) {
+        // KNOWN BUG: If you save multiple times there will be duplicate individuals save to disk. TODO: Delete whats on disk, or check ID of record on disk and if it is already saved skip that record.
         for rec in individualsList {
             let person = Individual()
             person.id = rec.id
@@ -83,6 +84,7 @@ class IndividualsListTableViewController: UITableViewController {
                 }
             }
         }
+        refreshTableData()
     }
     
     @IBAction func deleteIndividuals(_ sender: Any) {
@@ -144,8 +146,8 @@ extension IndividualsListTableViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toDetails" {
-            let desinationVC = segue.destination as! DetailsViewController
-            desinationVC.individual = selectedIndividual
+            let destinationVC = segue.destination as! DetailsViewController
+            destinationVC.individual = selectedIndividual
         }
     }
     

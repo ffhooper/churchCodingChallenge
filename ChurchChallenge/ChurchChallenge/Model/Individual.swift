@@ -34,13 +34,15 @@ class Individual: Object, Decodable {
     ///
     /// - Parameter completion: Array of Individuals from the url.
     func fetchIndividuals(completion: @escaping ([Individual]?) -> Void) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         let url = URL(string: "https://edge.ldscdn.org/mobile/interview/directory")!
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .secondsSince1970
         
         Alamofire.request(url).responseDecodableObject(keyPath: "individuals", decoder: decoder) { (response: DataResponse<[Individual]>) in
             if let error = response.result.error {
-                showAlert(title: "Faild to Fetch Individuals", message: error.localizedDescription)
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                showAlert(title: "Failed to Fetch Individuals", message: error.localizedDescription)
                 return
             }
             if let list = response.result.value {
@@ -52,8 +54,10 @@ class Individual: Object, Decodable {
                         }
                     }
                 }
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 completion(list)
             } else {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 completion(response.result.value)
             }
         }
