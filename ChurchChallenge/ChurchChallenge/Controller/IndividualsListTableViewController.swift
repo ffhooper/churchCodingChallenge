@@ -19,6 +19,15 @@ class IndividualsListTableViewController: UITableViewController {
         refreshTableData()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        
+        if UserDefaults.standard.bool(forKey: Constants.ShowInfoAlert) == true || UserDefaults.standard.object(forKey: Constants.ShowInfoAlert) == nil {
+            UserDefaults.standard.set(false, forKey: Constants.ShowInfoAlert)
+            showAlert(title: "Need to refresh?", message: "If you need to refresh the data, just \"Pull to Refresh\". If anything is saved to disk, it will load that. Else it will fetch from the web.")
+        }
+        
+    }
+    
     @IBAction func pullToRefresh(_ sender: Any) {
         refreshTableData()
     }
@@ -29,7 +38,7 @@ class IndividualsListTableViewController: UITableViewController {
             for item in list {
                 self.individualsList.append(item)
             }
-            self.individualsList.sort { $0.firstName ?? "Missing" < $1.firstName ?? "Missing" }
+            self.individualsList.sort { $0.id < $1.id }
             self.refreshControl?.endRefreshing()
             tableView.reloadData()
             guard list.isEmpty else {
@@ -41,7 +50,7 @@ class IndividualsListTableViewController: UITableViewController {
             if let list = individuals {
                 self.individualsList = list
             }
-            self.individualsList.sort { $0.firstName ?? "Missing" < $1.firstName ?? "Missing" }
+            self.individualsList.sort { $0.id < $1.id }
             self.refreshControl?.endRefreshing()
             self.tableView.reloadData()
         }
@@ -112,7 +121,7 @@ extension IndividualsListTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "IndividualTableViewCell", for: indexPath) as! IndividualTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.IndividualTableViewCell, for: indexPath) as! IndividualTableViewCell
         
         let profile = individualsList[indexPath.row]
         
@@ -122,7 +131,11 @@ extension IndividualsListTableViewController {
             let ind = Individual()
             ind.dowmloadImage(url: individualsList[indexPath.row].profilePicture!) { (returnImage: UIImage) in
                 cell.profileImage.image = returnImage
-                self.individualsList[indexPath.row].image = UIImagePNGRepresentation(returnImage) as NSData?
+                if !self.individualsList.isEmpty {
+                    self.individualsList[indexPath.row].image = UIImagePNGRepresentation(returnImage) as NSData?
+                } else {
+                    print("Missing index.")
+                }
             }
         }
         
@@ -136,14 +149,14 @@ extension IndividualsListTableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedIndividual = individualsList[indexPath.row]
-        performSegue(withIdentifier: "toDetails", sender: self)
+        performSegue(withIdentifier: Constants.toDetails, sender: self)
     }
     
     
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toDetails" {
+        if segue.identifier == Constants.toDetails {
             let destinationVC = segue.destination as! DetailsViewController
             destinationVC.individual = selectedIndividual
         }

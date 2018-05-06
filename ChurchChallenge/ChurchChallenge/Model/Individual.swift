@@ -48,9 +48,11 @@ class Individual: Object, Decodable {
             if let list = response.result.value {
                 for item in list {
                     // Load image for the individual.
-                    item.dowmloadImage(url: item.profilePicture!) { (returnImage: UIImage) in
-                        if let data = UIImagePNGRepresentation(returnImage) as NSData? {
-                            item.image = data
+                    if let url = item.profilePicture {
+                        item.dowmloadImage(url: url) { (returnImage: UIImage) in
+                            if let data = UIImagePNGRepresentation(returnImage) as NSData? {
+                                item.image = data
+                            }
                         }
                     }
                 }
@@ -82,13 +84,13 @@ class Individual: Object, Decodable {
     func getAffiliationImage() -> UIImage? {
         switch self.affiliation {
         case Affiliation.JEDI.rawValue:
-            return UIImage(named: "JediOrder")
+            return UIImage(named: Constants.JediOrder)
         case Affiliation.RESISTANCE.rawValue:
-            return UIImage(named: "RebelAlliance")
+            return UIImage(named: Constants.RebelAlliance)
         case Affiliation.SITH.rawValue:
-            return UIImage(named: "Sith")
+            return UIImage(named: Constants.Sith)
         case Affiliation.FIRST_ORDER.rawValue:
-            return UIImage(named: "FirstOrder")
+            return UIImage(named: Constants.FirstOrder)
         default:
             return nil
         }
@@ -110,7 +112,7 @@ class Individual: Object, Decodable {
     func load() -> Results<Individual>? {
         do {
             let realm = try Realm()
-            return realm.objects(Individual.self).sorted(byKeyPath: "firstName")
+            return realm.objects(Individual.self).sorted(byKeyPath: "id")
         } catch {
             showAlert(title: "Load Failed", message: error.localizedDescription)
             return nil
