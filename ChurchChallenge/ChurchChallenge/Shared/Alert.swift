@@ -8,6 +8,11 @@
 
 import UIKit
 
+/// Present an alert from any view.
+///
+/// - Parameters:
+///   - title: Title to display on the alert.
+///   - message: Message to display on the alert.
 public func showAlert(title: String, message: String) {
     let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
     let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
