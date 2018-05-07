@@ -59,12 +59,6 @@ class IndividualsListTableViewController: UITableViewController {
     }
     
     func saveToDisk() {
-        // KNOW BUG: In rare cases a crash can happen when the images are still loading and you try to do a save.
-        guard IndividualsListTableViewController.numberOfImagesLoaded == individualsList.count else {
-            showAlert(title: "Save Not Available", message: "There are still images downloading, please wait a few seconds and try again.")
-            return
-        }
-        // KNOWN BUG: If you save multiple times there will be duplicate individuals save to disk. TODO: Delete whats on disk, or check ID of record on disk and if it is already saved skip that record.
         for rec in individualsList {
             let person = Individual()
             person.id = rec.id
