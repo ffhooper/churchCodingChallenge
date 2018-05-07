@@ -53,12 +53,15 @@ class Individual: Object, Decodable {
                             if let data = UIImagePNGRepresentation(returnImage) as NSData? {
                                 item.image = data
                                 IndividualsListTableViewController.numberOfImagesLoaded += 1
+                                print(url)
+                                if IndividualsListTableViewController.numberOfImagesLoaded == list.count {
+                                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                                    completion(list)
+                                }
                             }
                         }
                     }
                 }
-                UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                completion(list)
             } else {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 completion(response.result.value)

@@ -52,12 +52,13 @@ class IndividualsListTableViewController: UITableViewController {
                 self.individualsList = list
             }
             self.individualsList.sort { $0.id < $1.id }
+            self.saveToDisk()
             self.refreshControl?.endRefreshing()
             self.tableView.reloadData()
         }
     }
     
-    @IBAction func saveToDisk(_ sender: UIBarButtonItem) {
+    func saveToDisk() {
         // KNOW BUG: In rare cases a crash can happen when the images are still loading and you try to do a save.
         guard IndividualsListTableViewController.numberOfImagesLoaded == individualsList.count else {
             showAlert(title: "Save Not Available", message: "There are still images downloading, please wait a few seconds and try again.")
