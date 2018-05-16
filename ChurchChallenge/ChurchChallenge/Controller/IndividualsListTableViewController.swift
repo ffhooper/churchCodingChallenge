@@ -141,7 +141,9 @@ extension IndividualsListTableViewController {
         }
         
         cell.nameLabel.text = profile.fullname
-        cell.AffiliationImage.image = profile.getAffiliationImage()
+        if let affiliation = profile.affiliation {
+            cell.AffiliationImage.image = getAffiliationImage(affil: affiliation)
+        }
         
         return cell
         

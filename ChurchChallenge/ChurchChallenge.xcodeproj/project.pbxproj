@@ -19,6 +19,7 @@
 		C9444751209798810067F8F8 /* ChurchChallengeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9444750209798810067F8F8 /* ChurchChallengeTests.swift */; };
 		C944475C209798810067F8F8 /* ChurchChallengeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C944475B209798810067F8F8 /* ChurchChallengeUITests.swift */; };
 		C944476D20979A310067F8F8 /* IndividualsListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C944476C20979A310067F8F8 /* IndividualsListTableViewController.swift */; };
+		C97AAAC720ABE19D0030DE97 /* Affiliation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97AAAC620ABE19D0030DE97 /* Affiliation.swift */; };
 		C9875D68209FA70A006E1CF6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9875D67209FA70A006E1CF6 /* Constants.swift */; };
 		C9DE2C672098ECBC0064DA24 /* IndividualTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DE2C662098ECBC0064DA24 /* IndividualTableViewCell.swift */; };
 		C9DE2C6920998A420064DA24 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DE2C6820998A420064DA24 /* DetailsViewController.swift */; };
@@ -66,6 +67,7 @@
 		C944475B209798810067F8F8 /* ChurchChallengeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChurchChallengeUITests.swift; sourceTree = "<group>"; };
 		C944475D209798810067F8F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C944476C20979A310067F8F8 /* IndividualsListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualsListTableViewController.swift; sourceTree = "<group>"; };
+		C97AAAC620ABE19D0030DE97 /* Affiliation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Affiliation.swift; sourceTree = "<group>"; };
 		C9875D67209FA70A006E1CF6 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		C9DE2C662098ECBC0064DA24 /* IndividualTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualTableViewCell.swift; sourceTree = "<group>"; };
 		C9DE2C6820998A420064DA24 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
@@ -199,6 +201,7 @@
 			isa = PBXGroup;
 			children = (
 				C941416A209AC9CF00565B96 /* Individual.swift */,
+				C97AAAC620ABE19D0030DE97 /* Affiliation.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -432,6 +435,7 @@
 			files = (
 				C9414169209AC07E00565B96 /* Alert.swift in Sources */,
 				C9DE2C672098ECBC0064DA24 /* IndividualTableViewCell.swift in Sources */,
+				C97AAAC720ABE19D0030DE97 /* Affiliation.swift in Sources */,
 				C941416B209AC9CF00565B96 /* Individual.swift in Sources */,
 				C944476D20979A310067F8F8 /* IndividualsListTableViewController.swift in Sources */,
 				C9875D68209FA70A006E1CF6 /* Constants.swift in Sources */,

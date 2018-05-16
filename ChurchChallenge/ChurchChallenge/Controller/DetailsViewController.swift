@@ -25,7 +25,9 @@ class DetailsViewController: UIViewController {
         if let picture = individual.image {
             profileImage.image = UIImage(data: picture as Data)
         }
-        affiliationImage.image = individual.getAffiliationImage()
+        if let affiliation = individual.affiliation {
+            affiliationImage.image = getAffiliationImage(affil: affiliation)
+        }
         nameLabel.text = individual.fullname
         idLabel.text = "\(individual.id)"
         dateOfBirthLabel.text = individual.birthdate
