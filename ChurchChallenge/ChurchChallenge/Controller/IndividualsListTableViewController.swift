@@ -52,47 +52,9 @@ class IndividualsListTableViewController: UITableViewController {
                 self.individualsList = list
             }
             self.individualsList.sort { $0.id < $1.id }
-            self.saveToDisk()
             self.refreshControl?.endRefreshing()
             self.tableView.reloadData()
         }
-    }
-    
-    func saveToDisk() {
-        for rec in individualsList {
-            let person = Individual()
-            person.id = rec.id
-            if let firstName = rec.firstName {
-                person.firstName = firstName
-            }
-            if let lastName = rec.lastName {
-                person.lastName = lastName
-            }
-            if let birthdate = rec.birthdate {
-                person.birthdate = birthdate
-            }
-            if let profilePicture = rec.profilePicture {
-                person.profilePicture = profilePicture
-            }
-            person.forceSensitive = rec.forceSensitive
-            person.affiliation = rec.affiliation
-            
-            if rec.image != nil {
-                person.image = rec.image
-                person.save()
-            } else {
-                let ind = Individual()
-                if let urlString = rec.profilePicture {
-                    ind.dowmloadImage(url: urlString) { (returnImage: UIImage) in
-                        if let data = UIImagePNGRepresentation(returnImage) as NSData? {
-                            person.image = data
-                            person.save()
-                        }
-                    }
-                }
-            }
-        }
-        refreshTableData()
     }
     
     @IBAction func deleteIndividuals(_ sender: Any) {
@@ -133,7 +95,7 @@ extension IndividualsListTableViewController {
             ind.dowmloadImage(url: individualsList[indexPath.row].profilePicture!) { (returnImage: UIImage) in
                 cell.profileImage.image = returnImage
                 if !self.individualsList.isEmpty {
-                    self.individualsList[indexPath.row].image = UIImagePNGRepresentation(returnImage) as NSData?
+                    //                    self.individualsList[indexPath.row].image = UIImagePNGRepresentation(returnImage) as NSData?
                 } else {
                     print("Missing index.")
                 }

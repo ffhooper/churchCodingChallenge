@@ -30,7 +30,7 @@ class Individual: Object, Decodable {
         case id, firstName, lastName, birthdate, profilePicture, forceSensitive, affiliation
     }
     
-    /// Load data for individuals from url.
+    /// Load data for individuals from url and save to disc.
     ///
     /// - Parameter completion: Array of Individuals from the url.
     func fetchIndividuals(completion: @escaping ([Individual]?) -> Void) {
@@ -47,21 +47,33 @@ class Individual: Object, Decodable {
             }
             if let list = response.result.value {
                 for item in list {
-                    // Load image for the individual.
-                    if let url = item.profilePicture {
-                        item.dowmloadImage(url: url) { (returnImage: UIImage) in
-                            if let data = UIImagePNGRepresentation(returnImage) as NSData? {
-                                item.image = data
-                                IndividualsListTableViewController.numberOfImagesLoaded += 1
-                                print(url)
-                                if IndividualsListTableViewController.numberOfImagesLoaded == list.count {
-                                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                                    completion(list)
-                                }
-                            }
+                    let person = Individual()
+                    person.id = item.id
+                    if let firstName = item.firstName {
+                        person.firstName = firstName
+                    }
+                    if let lastName = item.lastName {
+                        person.lastName = lastName
+                    }
+                    if let birthdate = item.birthdate {
+                        person.birthdate = birthdate
+                    }
+                    if let profilePicture = item.profilePicture {
+                        person.profilePicture = profilePicture
+                    }
+                    person.forceSensitive = item.forceSensitive
+                    person.affiliation = item.affiliation
+                    
+                    do {
+                        let realm = try Realm()
+                        try realm.write {
+                            realm.add(person)
                         }
+                    } catch {
+                        showAlert(title: "Save Failed", message: error.localizedDescription)
                     }
                 }
+                completion(list)
             } else {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 completion(response.result.value)
@@ -82,20 +94,6 @@ class Individual: Object, Decodable {
             if let image = response.result.value {
                 returnImage(image)
             }
-        }
-    }
-    
-    
-    
-    // Save to disk with Realm.
-    func save() {
-        do {
-            let realm = try Realm()
-            try realm.write {
-                realm.add(self)
-            }
-        } catch {
-            showAlert(title: "Save Failed", message: error.localizedDescription)
         }
     }
     
