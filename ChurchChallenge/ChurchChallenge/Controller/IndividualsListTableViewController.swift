@@ -34,7 +34,7 @@ class IndividualsListTableViewController: UITableViewController {
     func refreshTableData() {
         IndividualsListTableViewController.numberOfImagesLoaded = 0
         individualsList.removeAll()
-        if let list = Individual().load() {
+        if let list = getIndividualFromDisc() {
             for item in list {
                 self.individualsList.append(item)
                 IndividualsListTableViewController.numberOfImagesLoaded += 1
@@ -46,8 +46,7 @@ class IndividualsListTableViewController: UITableViewController {
                 return
             }
         }
-        let ind = Individual()
-        ind.fetchIndividuals { (individuals) in
+        fetchIndividuals { (individuals) in
             if let list = individuals {
                 self.individualsList = list
             }
@@ -59,8 +58,7 @@ class IndividualsListTableViewController: UITableViewController {
     
     @IBAction func deleteIndividuals(_ sender: Any) {
         // Clean all individuals on disk.
-        let person = Individual()
-        person.deleteAll()
+        deleteAllIndividualOnDisc()
         individualsList.removeAll()
         tableView.reloadData()
     }

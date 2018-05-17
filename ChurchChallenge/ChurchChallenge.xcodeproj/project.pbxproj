@@ -20,6 +20,7 @@
 		C944475C209798810067F8F8 /* ChurchChallengeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C944475B209798810067F8F8 /* ChurchChallengeUITests.swift */; };
 		C944476D20979A310067F8F8 /* IndividualsListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C944476C20979A310067F8F8 /* IndividualsListTableViewController.swift */; };
 		C97AAAC720ABE19D0030DE97 /* Affiliation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97AAAC620ABE19D0030DE97 /* Affiliation.swift */; };
+		C97AAAC920AE054E0030DE97 /* IndividualController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97AAAC820AE054E0030DE97 /* IndividualController.swift */; };
 		C9875D68209FA70A006E1CF6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9875D67209FA70A006E1CF6 /* Constants.swift */; };
 		C9DE2C672098ECBC0064DA24 /* IndividualTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DE2C662098ECBC0064DA24 /* IndividualTableViewCell.swift */; };
 		C9DE2C6920998A420064DA24 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DE2C6820998A420064DA24 /* DetailsViewController.swift */; };
@@ -68,6 +69,7 @@
 		C944475D209798810067F8F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C944476C20979A310067F8F8 /* IndividualsListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualsListTableViewController.swift; sourceTree = "<group>"; };
 		C97AAAC620ABE19D0030DE97 /* Affiliation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Affiliation.swift; sourceTree = "<group>"; };
+		C97AAAC820AE054E0030DE97 /* IndividualController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualController.swift; sourceTree = "<group>"; };
 		C9875D67209FA70A006E1CF6 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		C9DE2C662098ECBC0064DA24 /* IndividualTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualTableViewCell.swift; sourceTree = "<group>"; };
 		C9DE2C6820998A420064DA24 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 			children = (
 				C944476C20979A310067F8F8 /* IndividualsListTableViewController.swift */,
 				C9DE2C6820998A420064DA24 /* DetailsViewController.swift */,
+				C97AAAC820AE054E0030DE97 /* IndividualController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -438,6 +441,7 @@
 				C97AAAC720ABE19D0030DE97 /* Affiliation.swift in Sources */,
 				C941416B209AC9CF00565B96 /* Individual.swift in Sources */,
 				C944476D20979A310067F8F8 /* IndividualsListTableViewController.swift in Sources */,
+				C97AAAC920AE054E0030DE97 /* IndividualController.swift in Sources */,
 				C9875D68209FA70A006E1CF6 /* Constants.swift in Sources */,
 				C944473C209798800067F8F8 /* AppDelegate.swift in Sources */,
 				C9DE2C6920998A420064DA24 /* DetailsViewController.swift in Sources */,
