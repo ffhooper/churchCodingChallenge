@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class IndividualsListTableViewController: UITableViewController {
     var individualsList = [Individual]()
@@ -83,17 +84,24 @@ extension IndividualsListTableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.IndividualTableViewCell, for: indexPath) as! IndividualTableViewCell
-        
+        cell.profileImage.image = nil
         let profile = individualsList[indexPath.row]
         
         if let picture = profile.image {
-            cell.profileImage.image = UIImage(data: picture as Data)
+            DispatchQueue.main.async {
+                cell.profileImage.image = UIImage(data: picture as Data)
+            }
         } else {
-            let ind = Individual()
-            ind.dowmloadImage(url: individualsList[indexPath.row].profilePicture!) { (returnImage: UIImage) in
-                cell.profileImage.image = returnImage
+            dowmloadImage(url: individualsList[indexPath.row].profilePicture!) { (returnImage: UIImage) in
                 if !self.individualsList.isEmpty {
-                    //                    self.individualsList[indexPath.row].image = UIImagePNGRepresentation(returnImage) as NSData?
+                        do {
+                            let realm = try Realm()
+                            try realm.write {
+                                self.individualsList[indexPath.row].image = UIImagePNGRepresentation(returnImage) as NSData?
+                            }
+                        } catch {
+                            print("Failed to save image to individual object")
+                        }
                 } else {
                     print("Missing index.")
                 }

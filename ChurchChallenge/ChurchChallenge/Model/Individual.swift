@@ -32,21 +32,7 @@ class Individual: Object, Decodable {
     
     
     
-    /// Download single image from the web.
-    ///
-    /// - Parameters:
-    ///   - url: Location of image.
-    ///   - returnImage: UIImage returned back.
-    func dowmloadImage(url: String, returnImage: @escaping (UIImage) -> Void) {
-        Alamofire.request(url).responseImage { response in
-            if let error = response.error?.localizedDescription {
-                showAlert(title: "Load Failed", message: error)
-            }
-            if let image = response.result.value {
-                returnImage(image)
-            }
-        }
-    }
+    
     
 }
 
