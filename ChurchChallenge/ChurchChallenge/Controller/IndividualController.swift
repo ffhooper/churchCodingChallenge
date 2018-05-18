@@ -91,7 +91,7 @@ func dowmloadImage(url: String, returnImage: @escaping (UIImage) -> Void) {
 }
 
 // Load from disk with Realm.
-func getIndividualFromDisc() -> Results<Individual>? {
+func getIndividualsFromDisc() -> Results<Individual>? {
     do {
         let realm = try Realm()
         return realm.objects(Individual.self).sorted(byKeyPath: "id")
@@ -102,7 +102,7 @@ func getIndividualFromDisc() -> Results<Individual>? {
 }
 
 // Delete all from disk with Realm.
-func deleteAllIndividualOnDisc() {
+func deleteAllIndividualsOnDisc() {
     do {
         let realm = try Realm()
         try realm.write {

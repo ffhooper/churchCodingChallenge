@@ -24,7 +24,7 @@ class IndividualsListTableViewController: UITableViewController {
             notificationToken = realm.observe { [unowned self] note, realm in
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 self.individualsList.removeAll()
-                if let list = getIndividualFromDisc() {
+                if let list = getIndividualsFromDisc() {
                     for item in list {
                         self.individualsList.append(item)
                     }
@@ -46,17 +46,13 @@ class IndividualsListTableViewController: UITableViewController {
         }
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        notificationToken?.invalidate()
-    }
-    
     @IBAction func pullToRefresh(_ sender: Any) {
         refreshTableData()
     }
     
     func refreshTableData() {
         individualsList.removeAll()
-        if let list = getIndividualFromDisc() {
+        if let list = getIndividualsFromDisc() {
             for item in list {
                 self.individualsList.append(item)
             }
@@ -80,7 +76,7 @@ class IndividualsListTableViewController: UITableViewController {
     @IBAction func deleteIndividuals(_ sender: Any) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
         // Clean all individuals on disk.
-        deleteAllIndividualOnDisc()
+        deleteAllIndividualsOnDisc()
         individualsList.removeAll()
         tableView.reloadData()
     }
