@@ -18,6 +18,9 @@ class DetailsViewController: UIViewController {
     @IBOutlet weak var forceSensitiveLabel: UILabel!
     
     var individual = Individual()
+    // Couldn't figure this out.
+    let forceSensitiveYes = NSLocalizedString("forceSensitiveYes", comment: "Yes")
+    let forceSensitiveNo = NSLocalizedString("forceSensitiveNo", comment: "No")
     
     override func viewDidLoad() {
         super.viewDidLoad()

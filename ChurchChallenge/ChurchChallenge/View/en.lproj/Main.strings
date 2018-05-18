@@ -1,0 +1,37 @@
+
+/* Class = "UILabel"; text = "ID:"; ObjectID = "4HO-yv-YXe"; */
+"4HO-yv-YXe.text" = "ID:";
+
+/* Class = "UILabel"; text = "Sensitive To Force:"; ObjectID = "5k6-Jg-MeP"; */
+"5k6-Jg-MeP.text" = "Sensitive To Force:";
+
+/* Class = "UINavigationItem"; title = "Individuals"; ObjectID = "91d-Ub-TZv"; */
+"91d-Ub-TZv.title" = "Individuals";
+
+/* Class = "UILabel"; text = "Date of Birth:"; ObjectID = "ONH-hX-dKv"; */
+"ONH-hX-dKv.text" = "Date of Birth:";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "Oce-7s-CrD"; */
+"Oce-7s-CrD.text" = "Label";
+
+/* Class = "UILabel"; text = "Date of Birth:"; ObjectID = "RFM-Dk-zj2"; */
+"RFM-Dk-zj2.text" = "Date of Birth:";
+
+/* Class = "UILabel"; text = "Name"; ObjectID = "d8X-dw-izj"; */
+"d8X-dw-izj.text" = "Name";
+
+/* Class = "UILabel"; text = "Affiliation:"; ObjectID = "kRX-Vf-Jsh"; */
+"kRX-Vf-Jsh.text" = "Affiliation:";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "r0Q-86-xhR"; */
+"r0Q-86-xhR.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "rA9-Dv-fGz"; */
+"rA9-Dv-fGz.text" = "Label";
+
+/* Class = "UILabel"; text = "Date of Brith:"; ObjectID = "zp2-xs-b4n"; */
+"zp2-xs-b4n.text" = "Date of Brith:";
+
+"forceSensitiveYes" = "Yes";
+"forceSensitiveNo" = "No";
+
