@@ -18,14 +18,24 @@ class IndividualsListTableViewController: UITableViewController {
         super.viewDidLoad()
         self.clearsSelectionOnViewWillAppear = true
         
+        // listen for realm to finish.
         do {
             let realm = try Realm()
             notificationToken = realm.observe { [unowned self] note, realm in
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                self.individualsList.removeAll()
+                if let list = getIndividualFromDisc() {
+                    for item in list {
+                        self.individualsList.append(item)
+                    }
+                    self.individualsList.sort { $0.id < $1.id }
+                }
                 self.tableView.reloadData()
             }
         } catch {
-            print("Failed to add realm observer")
+            print("Failed to add realm observer: \(error.localizedDescription)")
         }
+        
         refreshTableData()
     }
     
@@ -68,6 +78,7 @@ class IndividualsListTableViewController: UITableViewController {
     }
     
     @IBAction func deleteIndividuals(_ sender: Any) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
         // Clean all individuals on disk.
         deleteAllIndividualOnDisc()
         individualsList.removeAll()
@@ -95,33 +106,18 @@ extension IndividualsListTableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.IndividualTableViewCell, for: indexPath) as! IndividualTableViewCell
         cell.profileImage.image = nil
+        
         let profile = individualsList[indexPath.row]
-        
-        if let picture = profile.image {
-            DispatchQueue.main.async {
-                cell.profileImage.image = UIImage(data: picture as Data)
-            }
-        } else {
-            dowmloadImage(url: individualsList[indexPath.row].profilePicture!) { (returnImage: UIImage) in
-                if !self.individualsList.isEmpty {
-                    do {
-                        let realm = try Realm()
-                        try realm.write {
-                            self.individualsList[indexPath.row].image = UIImagePNGRepresentation(returnImage) as NSData?
-                        }
-                    } catch {
-                        print("Failed to save image to individual object")
-                    }
-                } else {
-                    print("Missing index.")
-                }
-            }
-        }
-        
         cell.nameLabel.text = profile.fullname
         if let affiliation = profile.affiliation {
             cell.AffiliationImage.image = getAffiliationImage(affil: affiliation)
         }
+        if let picture = profile.image {
+            DispatchQueue.main.async {
+                cell.profileImage.image = UIImage(data: picture as Data)
+            }
+        }
+        
         return cell
     }
     

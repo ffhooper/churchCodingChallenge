@@ -43,10 +43,21 @@ func fetchIndividuals(completion: @escaping ([Individual]?) -> Void) {
                 }
                 if let profilePicture = item.profilePicture {
                     person.profilePicture = profilePicture
+                    dowmloadImage(url: profilePicture) { (returnImage: UIImage) in
+                        do {
+                            let realm = try Realm()
+                            try realm.write {
+                                if !person.isInvalidated {
+                                    person.image = UIImagePNGRepresentation(returnImage) as NSData?
+                                }
+                            }
+                        } catch {
+                            print("Failed to save image to individual object: \(error.localizedDescription)")
+                        }
+                    }
                 }
                 person.forceSensitive = item.forceSensitive
                 person.affiliation = item.affiliation
-                
                 do {
                     let realm = try Realm()
                     try realm.write {
@@ -58,7 +69,6 @@ func fetchIndividuals(completion: @escaping ([Individual]?) -> Void) {
             }
             completion(list)
         } else {
-            UIApplication.shared.isNetworkActivityIndicatorVisible = false
             completion(response.result.value)
         }
     }
