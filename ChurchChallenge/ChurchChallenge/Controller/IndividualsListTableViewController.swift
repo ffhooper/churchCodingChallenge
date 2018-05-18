@@ -7,15 +7,34 @@
 //
 
 import UIKit
+import RealmSwift
 
 class IndividualsListTableViewController: UITableViewController {
     var individualsList = [Individual]()
     var selectedIndividual = Individual()
-    static var numberOfImagesLoaded = 0
+    var notificationToken: NotificationToken?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.clearsSelectionOnViewWillAppear = true
+        
+        // listen for realm to finish.
+        do {
+            let realm = try Realm()
+            notificationToken = realm.observe { [unowned self] note, realm in
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                self.individualsList.removeAll()
+                if let list = getIndividualsFromDisc() {
+                    for item in list {
+                        self.individualsList.append(item)
+                    }
+                    self.individualsList.sort { $0.id < $1.id }
+                }
+                self.tableView.reloadData()
+            }
+        } catch {
+            print("Failed to add realm observer: \(error.localizedDescription)")
+        }
         
         refreshTableData()
     }
@@ -32,12 +51,10 @@ class IndividualsListTableViewController: UITableViewController {
     }
     
     func refreshTableData() {
-        IndividualsListTableViewController.numberOfImagesLoaded = 0
         individualsList.removeAll()
-        if let list = Individual().load() {
+        if let list = getIndividualsFromDisc() {
             for item in list {
                 self.individualsList.append(item)
-                IndividualsListTableViewController.numberOfImagesLoaded += 1
             }
             self.individualsList.sort { $0.id < $1.id }
             self.refreshControl?.endRefreshing()
@@ -46,59 +63,20 @@ class IndividualsListTableViewController: UITableViewController {
                 return
             }
         }
-        let ind = Individual()
-        ind.fetchIndividuals { (individuals) in
+        fetchIndividuals { (individuals) in
             if let list = individuals {
                 self.individualsList = list
             }
             self.individualsList.sort { $0.id < $1.id }
-            self.saveToDisk()
             self.refreshControl?.endRefreshing()
             self.tableView.reloadData()
         }
     }
     
-    func saveToDisk() {
-        for rec in individualsList {
-            let person = Individual()
-            person.id = rec.id
-            if let firstName = rec.firstName {
-                person.firstName = firstName
-            }
-            if let lastName = rec.lastName {
-                person.lastName = lastName
-            }
-            if let birthdate = rec.birthdate {
-                person.birthdate = birthdate
-            }
-            if let profilePicture = rec.profilePicture {
-                person.profilePicture = profilePicture
-            }
-            person.forceSensitive = rec.forceSensitive
-            person.affiliation = rec.affiliation
-            
-            if rec.image != nil {
-                person.image = rec.image
-                person.save()
-            } else {
-                let ind = Individual()
-                if let urlString = rec.profilePicture {
-                    ind.dowmloadImage(url: urlString) { (returnImage: UIImage) in
-                        if let data = UIImagePNGRepresentation(returnImage) as NSData? {
-                            person.image = data
-                            person.save()
-                        }
-                    }
-                }
-            }
-        }
-        refreshTableData()
-    }
-    
     @IBAction func deleteIndividuals(_ sender: Any) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
         // Clean all individuals on disk.
-        let person = Individual()
-        person.deleteAll()
+        deleteAllIndividualsOnDisc()
         individualsList.removeAll()
         tableView.reloadData()
     }
@@ -123,29 +101,20 @@ extension IndividualsListTableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.IndividualTableViewCell, for: indexPath) as! IndividualTableViewCell
+        cell.profileImage.image = nil
         
         let profile = individualsList[indexPath.row]
-        
+        cell.nameLabel.text = profile.fullname
+        if let affiliation = profile.affiliation {
+            cell.AffiliationImage.image = getAffiliationImage(affil: affiliation)
+        }
         if let picture = profile.image {
-            cell.profileImage.image = UIImage(data: picture as Data)
-        } else {
-            let ind = Individual()
-            ind.dowmloadImage(url: individualsList[indexPath.row].profilePicture!) { (returnImage: UIImage) in
-                cell.profileImage.image = returnImage
-                if !self.individualsList.isEmpty {
-                    self.individualsList[indexPath.row].image = UIImagePNGRepresentation(returnImage) as NSData?
-                } else {
-                    print("Missing index.")
-                }
+            DispatchQueue.main.async {
+                cell.profileImage.image = UIImage(data: picture as Data)
             }
         }
         
-        cell.nameLabel.text = profile.fullname
-        cell.AffiliationImage.image = profile.getAffiliationImage()
-        
         return cell
-        
-        
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

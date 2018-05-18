@@ -18,6 +18,9 @@ class DetailsViewController: UIViewController {
     @IBOutlet weak var forceSensitiveLabel: UILabel!
     
     var individual = Individual()
+    // Couldn't figure this out.
+    let forceSensitiveYes = NSLocalizedString("forceSensitiveYes", comment: "Yes")
+    let forceSensitiveNo = NSLocalizedString("forceSensitiveNo", comment: "No")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +28,9 @@ class DetailsViewController: UIViewController {
         if let picture = individual.image {
             profileImage.image = UIImage(data: picture as Data)
         }
-        affiliationImage.image = individual.getAffiliationImage()
+        if let affiliation = individual.affiliation {
+            affiliationImage.image = getAffiliationImage(affil: affiliation)
+        }
         nameLabel.text = individual.fullname
         idLabel.text = "\(individual.id)"
         dateOfBirthLabel.text = individual.birthdate

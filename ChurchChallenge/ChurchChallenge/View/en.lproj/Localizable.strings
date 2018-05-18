@@ -1,0 +1,12 @@
+/* 
+  Localizable.strings
+  ChurchChallenge
+
+  Created by Riley Hooper on 5/18/18.
+  Copyright © 2018 Riley Hooper. All rights reserved.
+*/
+
+"seasonsGreetings" = "Compliment of the season from all of us";
+
+"forceSensitiveYes" = "Yes";
+"forceSensitiveNo" = "No";
