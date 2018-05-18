@@ -12,12 +12,20 @@ import RealmSwift
 class IndividualsListTableViewController: UITableViewController {
     var individualsList = [Individual]()
     var selectedIndividual = Individual()
-    static var numberOfImagesLoaded = 0
+    var notificationToken: NotificationToken?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.clearsSelectionOnViewWillAppear = true
         
+        do {
+            let realm = try Realm()
+            notificationToken = realm.observe { [unowned self] note, realm in
+                self.tableView.reloadData()
+            }
+        } catch {
+            print("Failed to add realm observer")
+        }
         refreshTableData()
     }
     
@@ -28,17 +36,19 @@ class IndividualsListTableViewController: UITableViewController {
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        notificationToken?.invalidate()
+    }
+    
     @IBAction func pullToRefresh(_ sender: Any) {
         refreshTableData()
     }
     
     func refreshTableData() {
-        IndividualsListTableViewController.numberOfImagesLoaded = 0
         individualsList.removeAll()
         if let list = getIndividualFromDisc() {
             for item in list {
                 self.individualsList.append(item)
-                IndividualsListTableViewController.numberOfImagesLoaded += 1
             }
             self.individualsList.sort { $0.id < $1.id }
             self.refreshControl?.endRefreshing()
@@ -94,14 +104,14 @@ extension IndividualsListTableViewController {
         } else {
             dowmloadImage(url: individualsList[indexPath.row].profilePicture!) { (returnImage: UIImage) in
                 if !self.individualsList.isEmpty {
-                        do {
-                            let realm = try Realm()
-                            try realm.write {
-                                self.individualsList[indexPath.row].image = UIImagePNGRepresentation(returnImage) as NSData?
-                            }
-                        } catch {
-                            print("Failed to save image to individual object")
+                    do {
+                        let realm = try Realm()
+                        try realm.write {
+                            self.individualsList[indexPath.row].image = UIImagePNGRepresentation(returnImage) as NSData?
                         }
+                    } catch {
+                        print("Failed to save image to individual object")
+                    }
                 } else {
                     print("Missing index.")
                 }
@@ -112,10 +122,7 @@ extension IndividualsListTableViewController {
         if let affiliation = profile.affiliation {
             cell.AffiliationImage.image = getAffiliationImage(affil: affiliation)
         }
-        
         return cell
-        
-        
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
