@@ -43,18 +43,6 @@ func fetchIndividuals(completion: @escaping ([Individual]?) -> Void) {
                 }
                 if let profilePicture = item.profilePicture {
                     person.profilePicture = profilePicture
-                    dowmloadImage(url: profilePicture) { (returnImage: UIImage) in
-                        do {
-                            let realm = try Realm()
-                            try realm.write {
-                                if !person.isInvalidated {
-                                    person.image = UIImagePNGRepresentation(returnImage) as NSData?
-                                }
-                            }
-                        } catch {
-                            print("Failed to save image to individual object: \(error.localizedDescription)")
-                        }
-                    }
                 }
                 person.forceSensitive = item.forceSensitive
                 person.affiliation = item.affiliation
@@ -79,12 +67,23 @@ func fetchIndividuals(completion: @escaping ([Individual]?) -> Void) {
 /// - Parameters:
 ///   - url: Location of image.
 ///   - returnImage: UIImage returned back.
-func dowmloadImage(url: String, returnImage: @escaping (UIImage) -> Void) {
+func dowmloadImage(person: Individual, url: String, index: Int, returnImage: @escaping (UIImage) -> Void) {
+    print("dowmloadImage called")
     Alamofire.request(url).responseImage { response in
         if let error = response.error?.localizedDescription {
             showAlert(title: "Load Failed", message: error)
         }
         if let image = response.result.value {
+            do {
+                let realm = try Realm()
+                try realm.write {
+                    if !person.isInvalidated {
+                        person.image = UIImagePNGRepresentation(image) as NSData?
+                    }
+                }
+            } catch {
+                print("Failed to save image to individual object: \(error.localizedDescription)")
+            }
             returnImage(image)
         }
     }

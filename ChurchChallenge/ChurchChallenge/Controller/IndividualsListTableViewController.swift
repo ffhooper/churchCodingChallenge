@@ -23,14 +23,9 @@ class IndividualsListTableViewController: UITableViewController {
             let realm = try Realm()
             notificationToken = realm.observe { [unowned self] note, realm in
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                self.individualsList.removeAll()
-                if let list = getIndividualsFromDisc() {
-                    for item in list {
-                        self.individualsList.append(item)
-                    }
-                    self.individualsList.sort { $0.id < $1.id }
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
                 }
-                self.tableView.reloadData()
             }
         } catch {
             print("Failed to add realm observer: \(error.localizedDescription)")
@@ -69,7 +64,9 @@ class IndividualsListTableViewController: UITableViewController {
             }
             self.individualsList.sort { $0.id < $1.id }
             self.refreshControl?.endRefreshing()
-            self.tableView.reloadData()
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
         }
     }
     
@@ -78,7 +75,9 @@ class IndividualsListTableViewController: UITableViewController {
         // Clean all individuals on disk.
         deleteAllIndividualsOnDisc()
         individualsList.removeAll()
-        tableView.reloadData()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
 }
@@ -102,15 +101,27 @@ extension IndividualsListTableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.IndividualTableViewCell, for: indexPath) as! IndividualTableViewCell
         cell.profileImage.image = nil
-        
-        let profile = individualsList[indexPath.row]
-        cell.nameLabel.text = profile.fullname
-        if let affiliation = profile.affiliation {
+        print(indexPath.row)
+        let individual = individualsList[indexPath.row]
+        cell.nameLabel.text = individual.fullname
+        if let affiliation = individual.affiliation {
             cell.AffiliationImage.image = getAffiliationImage(affil: affiliation)
         }
-        if let picture = profile.image {
-            DispatchQueue.main.async {
-                cell.profileImage.image = UIImage(data: picture as Data)
+        if let picture = individual.image {
+            cell.profileImage.image = UIImage(data: picture as Data)
+        } else {
+            if let url = individual.profilePicture {
+                dowmloadImage(person: individual, url: url, index: indexPath.row) { (returnImage: UIImage) in
+                    do {
+                        let realm = try Realm()
+                        try realm.write {
+                            self.individualsList[indexPath.row].image = UIImagePNGRepresentation(returnImage) as NSData?
+                        }
+                    } catch {
+                        print("Failed to set image to individual object in array: \(error.localizedDescription)")
+                    }
+                    
+                }
             }
         }
         
