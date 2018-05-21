@@ -68,7 +68,6 @@ func fetchIndividuals(completion: @escaping ([Individual]?) -> Void) {
 ///   - url: Location of image.
 ///   - returnImage: UIImage returned back.
 func dowmloadImage(person: Individual, url: String, returnImage: @escaping (UIImage) -> Void) {
-    print("dowmloadImage called")
     Alamofire.request(url).responseImage { response in
         if let error = response.error?.localizedDescription {
             showAlert(title: "Load Failed", message: error)

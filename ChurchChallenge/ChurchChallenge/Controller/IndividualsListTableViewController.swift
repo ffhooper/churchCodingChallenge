@@ -90,7 +90,6 @@ extension IndividualsListTableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.IndividualTableViewCell, for: indexPath) as! IndividualTableViewCell
         cell.profileImage.image = nil
-        print(indexPath.row)
         let individual = IndividualsListTableViewController.individualsList[indexPath.row]
         cell.nameLabel.text = individual.fullname
         if let affiliation = individual.affiliation {
