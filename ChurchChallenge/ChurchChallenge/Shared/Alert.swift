@@ -22,6 +22,5 @@ public func showAlert(title: String, message: String) {
     if let navigationController = rootViewController as? UINavigationController {
         rootViewController = navigationController.viewControllers.first
     }
-    
     rootViewController?.present(alertController, animated: true, completion: nil)
 }
