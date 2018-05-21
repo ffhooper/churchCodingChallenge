@@ -67,7 +67,7 @@ func fetchIndividuals(completion: @escaping ([Individual]?) -> Void) {
 /// - Parameters:
 ///   - url: Location of image.
 ///   - returnImage: UIImage returned back.
-func dowmloadImage(person: Individual, url: String, index: Int, returnImage: @escaping (UIImage) -> Void) {
+func dowmloadImage(person: Individual, url: String, returnImage: @escaping (UIImage) -> Void) {
     print("dowmloadImage called")
     Alamofire.request(url).responseImage { response in
         if let error = response.error?.localizedDescription {
@@ -79,6 +79,7 @@ func dowmloadImage(person: Individual, url: String, index: Int, returnImage: @es
                 try realm.write {
                     if !person.isInvalidated {
                         person.image = UIImagePNGRepresentation(image) as NSData?
+                        realm.add(person, update: true)
                     }
                 }
             } catch {

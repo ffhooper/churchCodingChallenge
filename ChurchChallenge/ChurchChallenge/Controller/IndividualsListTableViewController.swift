@@ -10,7 +10,7 @@ import UIKit
 import RealmSwift
 
 class IndividualsListTableViewController: UITableViewController {
-   static var individualsList = [Individual]()
+    static var individualsList = [Individual]()
     var selectedIndividual = Individual()
     var notificationToken: NotificationToken?
     
@@ -19,25 +19,19 @@ class IndividualsListTableViewController: UITableViewController {
         self.clearsSelectionOnViewWillAppear = true
         
         // listen for realm to finish.
-        do {
-            let realm = try Realm()
-            notificationToken = realm.observe { [unowned self] note, realm in
-                UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
+        notificationToken = getIndividualsFromDisc()?.observe { [weak self] changes in
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
             }
-        } catch {
-            print("Failed to add realm observer: \(error.localizedDescription)")
         }
-        
         refreshDataFromDisc()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         if UserDefaults.standard.bool(forKey: Constants.ShowInfoAlert) == true || UserDefaults.standard.object(forKey: Constants.ShowInfoAlert) == nil {
             UserDefaults.standard.set(false, forKey: Constants.ShowInfoAlert)
-            showAlert(title: "Need to refresh?", message: "If you need to refresh the data, just \"Pull to Refresh\". If anything is saved to disk, it will load that. Else it will fetch from the web.")
+            showAlert(title: "Need to refresh?", message: "If you need to refresh the data, just \"Pull to Refresh\". This will fetch from the web. And update anything saved on disk.")
         }
     }
     
@@ -106,7 +100,7 @@ extension IndividualsListTableViewController {
             cell.profileImage.image = UIImage(data: picture as Data)
         } else {
             if let url = individual.profilePicture {
-                dowmloadImage(person: individual, url: url, index: indexPath.row) { (returnImage: UIImage) in
+                dowmloadImage(person: individual, url: url) { (returnImage: UIImage) in
                     do {
                         let realm = try Realm()
                         try realm.write {
