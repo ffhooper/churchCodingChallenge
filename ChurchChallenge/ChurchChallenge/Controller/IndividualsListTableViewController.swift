@@ -43,29 +43,25 @@ class IndividualsListTableViewController: UITableViewController {
     
     @IBAction func pullToRefresh(_ sender: Any) {
         refreshDataFromWeb()
+        self.refreshControl?.endRefreshing()
     }
     
     func refreshDataFromWeb() {
         IndividualsListTableViewController.individualsList.removeAll()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
         fetchIndividuals { (individuals) in
             if let list = individuals {
                 IndividualsListTableViewController.individualsList = list
             }
             IndividualsListTableViewController.individualsList.sort { $0.id < $1.id }
-            self.refreshControl?.endRefreshing()
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
         }
     }
     
     func refreshDataFromDisc() {
         if IndividualsListTableViewController.individualsList.isEmpty {
             IndividualsListTableViewController.individualsList = getIndividualsFromDisc()?.map({ $0 }) ?? []
-            self.refreshControl?.endRefreshing()
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
         }
     }
     
