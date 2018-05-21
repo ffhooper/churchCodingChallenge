@@ -61,18 +61,10 @@ class IndividualsListTableViewController: UITableViewController {
     
     func refreshDataFromDisc() {
         if IndividualsListTableViewController.individualsList.isEmpty {
-            if let list = getIndividualsFromDisc() {
-                for item in list {
-                    IndividualsListTableViewController.individualsList.append(item)
-                }
-                IndividualsListTableViewController.individualsList.sort { $0.id < $1.id }
-                self.refreshControl?.endRefreshing()
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-                guard list.isEmpty else {
-                    return
-                }
+            IndividualsListTableViewController.individualsList = getIndividualsFromDisc()?.map({ $0 }) ?? []
+            self.refreshControl?.endRefreshing()
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
             }
         }
     }
