@@ -10,7 +10,7 @@ import UIKit
 import RealmSwift
 
 class IndividualsListTableViewController: UITableViewController {
-    var individualsList = [Individual]()
+   static var individualsList = [Individual]()
     var selectedIndividual = Individual()
     var notificationToken: NotificationToken?
     
@@ -31,7 +31,7 @@ class IndividualsListTableViewController: UITableViewController {
             print("Failed to add realm observer: \(error.localizedDescription)")
         }
         
-        refreshTableData()
+        refreshDataFromDisc()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -42,30 +42,37 @@ class IndividualsListTableViewController: UITableViewController {
     }
     
     @IBAction func pullToRefresh(_ sender: Any) {
-        refreshTableData()
+        refreshDataFromWeb()
     }
     
-    func refreshTableData() {
-        individualsList.removeAll()
-        if let list = getIndividualsFromDisc() {
-            for item in list {
-                self.individualsList.append(item)
-            }
-            self.individualsList.sort { $0.id < $1.id }
-            self.refreshControl?.endRefreshing()
-            tableView.reloadData()
-            guard list.isEmpty else {
-                return
-            }
-        }
+    func refreshDataFromWeb() {
+        IndividualsListTableViewController.individualsList.removeAll()
         fetchIndividuals { (individuals) in
             if let list = individuals {
-                self.individualsList = list
+                IndividualsListTableViewController.individualsList = list
             }
-            self.individualsList.sort { $0.id < $1.id }
+            IndividualsListTableViewController.individualsList.sort { $0.id < $1.id }
             self.refreshControl?.endRefreshing()
             DispatchQueue.main.async {
                 self.tableView.reloadData()
+            }
+        }
+    }
+    
+    func refreshDataFromDisc() {
+        if IndividualsListTableViewController.individualsList.isEmpty {
+            if let list = getIndividualsFromDisc() {
+                for item in list {
+                    IndividualsListTableViewController.individualsList.append(item)
+                }
+                IndividualsListTableViewController.individualsList.sort { $0.id < $1.id }
+                self.refreshControl?.endRefreshing()
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+                guard list.isEmpty else {
+                    return
+                }
             }
         }
     }
@@ -74,7 +81,7 @@ class IndividualsListTableViewController: UITableViewController {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
         // Clean all individuals on disk.
         deleteAllIndividualsOnDisc()
-        individualsList.removeAll()
+        IndividualsListTableViewController.individualsList.removeAll()
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
@@ -91,7 +98,7 @@ extension IndividualsListTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return individualsList.count
+        return IndividualsListTableViewController.individualsList.count
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -102,7 +109,7 @@ extension IndividualsListTableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.IndividualTableViewCell, for: indexPath) as! IndividualTableViewCell
         cell.profileImage.image = nil
         print(indexPath.row)
-        let individual = individualsList[indexPath.row]
+        let individual = IndividualsListTableViewController.individualsList[indexPath.row]
         cell.nameLabel.text = individual.fullname
         if let affiliation = individual.affiliation {
             cell.AffiliationImage.image = getAffiliationImage(affil: affiliation)
@@ -115,7 +122,7 @@ extension IndividualsListTableViewController {
                     do {
                         let realm = try Realm()
                         try realm.write {
-                            self.individualsList[indexPath.row].image = UIImagePNGRepresentation(returnImage) as NSData?
+                            IndividualsListTableViewController.individualsList[indexPath.row].image = UIImagePNGRepresentation(returnImage) as NSData?
                         }
                     } catch {
                         print("Failed to set image to individual object in array: \(error.localizedDescription)")
@@ -129,7 +136,7 @@ extension IndividualsListTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedIndividual = individualsList[indexPath.row]
+        selectedIndividual = IndividualsListTableViewController.individualsList[indexPath.row]
         performSegue(withIdentifier: Constants.toDetails, sender: self)
     }
     

@@ -15,7 +15,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        if UserDefaults.standard.bool(forKey: Constants.ShowInfoAlert) == true || UserDefaults.standard.object(forKey: Constants.ShowInfoAlert) == nil {
+            fetchIndividuals { (individuals) in
+                if let list = individuals {
+                    IndividualsListTableViewController.individualsList = list
+                }
+                IndividualsListTableViewController.individualsList.sort { $0.id < $1.id }
+            }
+        }
+        
         return true
     }
 
