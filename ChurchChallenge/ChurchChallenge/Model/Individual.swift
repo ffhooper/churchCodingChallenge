@@ -29,4 +29,9 @@ class Individual: Object, Decodable {
     enum CodingKeys: String, CodingKey {
         case id, firstName, lastName, birthdate, profilePicture, forceSensitive, affiliation
     }
+    
+    override class func primaryKey() -> String? {
+        return "id"
+    }
+    
 }

@@ -49,7 +49,7 @@ func fetchIndividuals(completion: @escaping ([Individual]?) -> Void) {
                 do {
                     let realm = try Realm()
                     try realm.write {
-                        realm.add(person)
+                        realm.add(person, update: true)
                     }
                 } catch {
                     showAlert(title: "Save Failed", message: error.localizedDescription)
