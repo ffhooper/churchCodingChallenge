@@ -10,7 +10,7 @@ import UIKit
 import RealmSwift
 
 class IndividualsListTableViewController: UITableViewController {
-    static var individualsList = [Individual]()
+    var individualsList = [Individual]()
     var selectedIndividual = Individual()
     var notificationToken: NotificationToken?
     
@@ -21,6 +21,7 @@ class IndividualsListTableViewController: UITableViewController {
         // listen for realm to finish.
         notificationToken = getIndividualsFromDisc()?.observe { [weak self] changes in
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            self?.refreshDataFromDisc()
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
             }
@@ -41,32 +42,20 @@ class IndividualsListTableViewController: UITableViewController {
     }
     
     func refreshDataFromWeb() {
-        IndividualsListTableViewController.individualsList.removeAll()
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
-        fetchIndividuals { (individuals) in
-            if let list = individuals {
-                IndividualsListTableViewController.individualsList = list
-            }
-            IndividualsListTableViewController.individualsList.sort { $0.id < $1.id }
-        }
+        individualsList.removeAll()
+        // Needed to prevent a crash
+        tableView.reloadData()
+        fetchIndividuals()
     }
     
     func refreshDataFromDisc() {
-        if IndividualsListTableViewController.individualsList.isEmpty {
-            IndividualsListTableViewController.individualsList = getIndividualsFromDisc()?.map({ $0 }) ?? []
-        }
+        individualsList = getIndividualsFromDisc()?.map({ $0 }) ?? []
     }
     
     @IBAction func deleteIndividuals(_ sender: Any) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
         // Clean all individuals on disk.
         deleteAllIndividualsOnDisc()
-        IndividualsListTableViewController.individualsList.removeAll()
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
     }
     
 }
@@ -80,7 +69,7 @@ extension IndividualsListTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return IndividualsListTableViewController.individualsList.count
+        return individualsList.count
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -90,7 +79,7 @@ extension IndividualsListTableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.IndividualTableViewCell, for: indexPath) as! IndividualTableViewCell
         cell.profileImage.image = nil
-        let individual = IndividualsListTableViewController.individualsList[indexPath.row]
+        let individual = individualsList[indexPath.row]
         cell.nameLabel.text = individual.fullname
         if let affiliation = individual.affiliation {
             cell.AffiliationImage.image = getAffiliationImage(affil: affiliation)
@@ -99,17 +88,7 @@ extension IndividualsListTableViewController {
             cell.profileImage.image = UIImage(data: picture as Data)
         } else {
             if let url = individual.profilePicture {
-                dowmloadImage(person: individual, url: url) { (returnImage: UIImage) in
-                    do {
-                        let realm = try Realm()
-                        try realm.write {
-                            IndividualsListTableViewController.individualsList[indexPath.row].image = UIImagePNGRepresentation(returnImage) as NSData?
-                        }
-                    } catch {
-                        print("Failed to set image to individual object in array: \(error.localizedDescription)")
-                    }
-                    
-                }
+                dowmloadImage(person: individual, url: url)
             }
         }
         
@@ -117,7 +96,7 @@ extension IndividualsListTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedIndividual = IndividualsListTableViewController.individualsList[indexPath.row]
+        selectedIndividual = individualsList[indexPath.row]
         performSegue(withIdentifier: Constants.toDetails, sender: self)
     }
     

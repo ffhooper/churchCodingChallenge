@@ -16,7 +16,7 @@ import AlamofireImage
 /// Load data for individuals from url and save to disc.
 ///
 /// - Parameter completion: Array of Individuals from the url.
-func fetchIndividuals(completion: @escaping ([Individual]?) -> Void) {
+func fetchIndividuals() {
     UIApplication.shared.isNetworkActivityIndicatorVisible = true
     let url = URL(string: "https://edge.ldscdn.org/mobile/interview/directory")!
     let decoder = JSONDecoder()
@@ -55,9 +55,8 @@ func fetchIndividuals(completion: @escaping ([Individual]?) -> Void) {
                     showAlert(title: "Save Failed", message: error.localizedDescription)
                 }
             }
-            completion(list)
         } else {
-            completion(response.result.value)
+            showAlert(title: "No Data in Respone", message: "")
         }
     }
 }
@@ -67,7 +66,7 @@ func fetchIndividuals(completion: @escaping ([Individual]?) -> Void) {
 /// - Parameters:
 ///   - url: Location of image.
 ///   - returnImage: UIImage returned back.
-func dowmloadImage(person: Individual, url: String, returnImage: @escaping (UIImage) -> Void) {
+func dowmloadImage(person: Individual, url: String) {
     Alamofire.request(url).responseImage { response in
         if let error = response.error?.localizedDescription {
             showAlert(title: "Load Failed", message: error)
@@ -84,7 +83,6 @@ func dowmloadImage(person: Individual, url: String, returnImage: @escaping (UIIm
             } catch {
                 print("Failed to save image to individual object: \(error.localizedDescription)")
             }
-            returnImage(image)
         }
     }
 }
